@@ -66,4 +66,28 @@ public class Elevator {
     public int[][] getFloors() {
         return floors;
     }
+
+    /**
+     * Switches the direction of the Elevator. If the Elevator was going up, it will now be going down, and if it was going down, it will now be going up. If the Elevator did not have a direction, the direction will not be changed.
+     * @return direction the new direction of the Elevator
+     */
+    private int toggleDirection(){
+        if(direction == 1){
+            direction = -1;
+        }
+        else if(direction == -1){
+            direction = 1;
+        }
+        else{
+            direction = 0;
+        }
+
+        return direction;
+    }
+
+    public void move(){
+        if(currFloor == 1 || currFloor == numFloors){
+            toggleDirection();
+        }
+    }
 }
