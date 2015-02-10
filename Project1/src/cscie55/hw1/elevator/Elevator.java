@@ -6,17 +6,15 @@ package cscie55.hw1.elevator;
  */
 public class Elevator {
     private static final int numFloors = 7;
-//    1=up, -1=dow, 0=not moving
     private int direction;
     private int currFloor;
-//    Array of size numFloors containing arrays of size 2 with numPassengers and stop yes/no
     private int[][] floors;
 
     /**
      * Creates a new Elevator with default values
      */
     public Elevator() {
-        direction = 0;
+        direction = -1;
         currFloor = 1;
         /* Creates an empty array to hold the number of floors in the building
         *  and two pieces of information for each floor, the number of passengers
@@ -48,7 +46,7 @@ public class Elevator {
         this.direction = direction;
         this.currFloor = currFloor;
 
-        if(floors.length != numFloors){
+        if(floors.length + 1 != numFloors){
             throw new IllegalArgumentException("The number of floors in the Elevator must match the number of floors in the building.");
         }
         else{
@@ -94,7 +92,7 @@ public class Elevator {
      * @return numPassengers the number of passengers destined for the specified floor
      */
     public int getNumPassengers(int floor){
-        return floors[floor][0];
+        return floors[floor-1][0];
     }
 
     /**
@@ -103,7 +101,7 @@ public class Elevator {
      */
     public int getNumPassengers(){
         int numPassengers = 0;
-        for(int i=1;i<=numFloors;i++){
+        for(int i=0;i<numFloors;i++){
             numPassengers += floors[i][0];
         }
 
@@ -136,20 +134,19 @@ public class Elevator {
      */
     public void move(){
         /*If the Elevator is at the top or bottom floor, switch directions*/
-        if(currFloor == 1 || currFloor == numFloors){
+        if(currFloor == 0 || currFloor == numFloors-1){
             toggleDirection();
         }
-        /*Otherwise, increase or decrease the floor as appropriate*/
+
+        /*Increase or decrease the floor as appropriate*/
+        if(direction == 1){
+            currFloor++;
+        }
+        else if(direction == -1){
+            currFloor--;
+        }
         else{
-            if(direction == 1){
-                currFloor++;
-            }
-            else if(direction == -1){
-                currFloor--;
-            }
-            else{
-                throw new UnsupportedOperationException("Cannot move Elevator without a direction. Direction is currently " + direction + ".");
-            }
+            throw new UnsupportedOperationException("Cannot move Elevator without a direction. Direction is currently " + direction + ".");
         }
 
         /*Clear the passengers destined for this floor.*/
@@ -165,12 +162,19 @@ public class Elevator {
      */
     public void boardPassenger(int floor){
         /*Add 1 to the number of passengers destined for the indicated floor*/
-        floors[floor][0]++;
+        floors[floor-1][0]++;
         /*Mark the floor as a stop, regardless of whether it already is one*/
-        floors[floor][1] = 1;
+        floors[floor-1][1] = 1;
+    }
+
+    public void boardPassengers(int floor,int numPassengers){
+        /*Add the specified number of passengers to the number of passengers destined for the specified floor*/
+        floors[floor-1][0] += numPassengers;
+        /*Mark the floor as a stop, regardless of whether it already is one*/
+        floors[floor-1][1] = 1;
     }
 
     public String toString(){
-        return "Current floor: " + currFloor + "\nPassengers: "+getNumPassengers();
+        return "Current floor: " + (currFloor) + "\nPassengers: "+getNumPassengers();
     }
 }
