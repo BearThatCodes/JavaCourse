@@ -171,6 +171,6 @@ public class Elevator {
     }
 
     public String toString(){
-
+        return "Current floor: " + currFloor + "\nPassengers: "+getNumPassengers();
     }
 }
