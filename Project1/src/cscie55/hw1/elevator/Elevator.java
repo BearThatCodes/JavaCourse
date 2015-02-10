@@ -89,6 +89,28 @@ public class Elevator {
     }
 
     /**
+     * Returns the number of passengers destined for a given floor
+     * @param floor the floor for which you want the number of passengers
+     * @return numPassengers the number of passengers destined for the specified floor
+     */
+    public int getNumPassengers(int floor){
+        return floors[floor][0];
+    }
+
+    /**
+     * Returns the total number of passengers, regardless of the floors for which they are destined
+     * @return numPassengers the number of total passengers in the Elevator
+     */
+    public int getNumPassengers(){
+        int numPassengers = 0;
+        for(int i=1;i<=numFloors;i++){
+            numPassengers += floors[i][0];
+        }
+
+        return numPassengers;
+    }
+
+    /**
      * Switches the direction of the Elevator. If the Elevator was going up, it will now be going down, and if it was going down, it will now be going up. If the Elevator did not have a direction, the direction will not be changed.
      * @return direction the new direction of the Elevator
      */
@@ -146,5 +168,9 @@ public class Elevator {
         floors[floor][0]++;
         /*Mark the floor as a stop, regardless of whether it already is one*/
         floors[floor][1] = 1;
+    }
+
+    public String toString(){
+
     }
 }
