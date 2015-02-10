@@ -15,7 +15,7 @@ public class Elevator {
      */
     public Elevator() {
         direction = -1;
-        currFloor = 1;
+        currFloor = 0;
         /* Creates an empty array to hold the number of floors in the building
         *  and two pieces of information for each floor, the number of passengers
         *  destined for that floor and whether a stop was requested. The first
