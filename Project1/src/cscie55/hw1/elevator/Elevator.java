@@ -2,7 +2,7 @@ package cscie55.hw1.elevator;
 
 /**
  * @author Isaac Lebwohl-Steiner
- * @since 2015-02-09
+ * @since 2015-02-10
  */
 public class Elevator {
     private static final int numFloors = 7;
