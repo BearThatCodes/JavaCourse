@@ -142,10 +142,10 @@ public class Elevator {
     }
 
     /**
-     * Moves the Elevator, making appropriate changes to state:
-     * Change Elevator direction if necessary
-     * Change current floor
-     * Disembark all passengers on the new floor
+     * Moves the Elevator, making appropriate changes to state(
+     * Change Elevator direction if necessary,
+     * Change current floor,
+     * Disembark all passengers on the new floor)
      */
     public void move() {
         /*If the Elevator is at the top or bottom floor, switch directions*/
