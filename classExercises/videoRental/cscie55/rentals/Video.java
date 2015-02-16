@@ -3,7 +3,7 @@ package cscie55.rentals;
 /**
  * Created by Isaac on 2/15/2015.
  */
-public class Video {
+public class Video implements Rentable{
     enum AVAILABILITY {AVAILABLE,UNAVAILABLE,OUT_OF_STOCK};
     private static int count;
     private final int year;
