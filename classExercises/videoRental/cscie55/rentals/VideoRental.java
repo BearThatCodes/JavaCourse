@@ -1,10 +1,13 @@
+package cscie55.rentals;
 import java.util.Random;
 
-public class VideoRental{
-	public static void main(String argv[]){
-        Video video;
+/**
+ * Created by Isaac on 2/15/2015.
+ */
+public class VideoRental {
+    public static void main(String argv[]){
         Video video2;
-        video = new Video("Citizen Kane",1941);
+        Video video = new Video("Citizen Kane",1941);
         video2 = new Video("Blargh",3848);
         System.out.println(video);
 
