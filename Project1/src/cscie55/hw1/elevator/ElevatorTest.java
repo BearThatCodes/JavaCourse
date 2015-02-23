@@ -10,7 +10,7 @@ public class ElevatorTest {
         Elevator elevator = new Elevator();
 
         /*Board 2 passengers destined for floor 3*/
-        elevator.boardPassengers(3, 2);
+        elevator.boardPassenger(3, 2);
 
         /*Board 1 passenger destined for floor 5*/
         elevator.boardPassenger(5);

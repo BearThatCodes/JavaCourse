@@ -188,7 +188,7 @@ public class Elevator {
      * @param floor the floor for which the passengers are destined
      * @param numPassengers the number of passengers to board (integer greater than 0)
      */
-    public void boardPassengers(int floor, int numPassengers) {
+    public void boardPassenger(int floor, int numPassengers) {
         if(numPassengers <= 0){
             throw new IllegalArgumentException("The number of passengers must be greater than 0.");
         }
