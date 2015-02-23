@@ -1,21 +1,47 @@
 package cscie55.hw2;
 
-import cscie55.hw1.Elevator;
-
 /**
  * @author Isaac Lebwohl-Steiner
  * @since 2015-02-10
  */
 public class ElevatorTest {
     public static void main(String[] args) {
+        /*Creates a new Building object.*/
+        Building building = new Building();
         /*Create a new Elevator object*/
-        cscie55.hw1.Elevator elevator = new cscie55.hw1.Elevator();
+        Elevator elevator = building.elevator();
 
         /*Board 2 passengers destined for floor 3*/
-        elevator.boardPassenger(3, 2);
+        try {
+            elevator.boardPassenger(3);
+        }
+        catch (ElevatorFullException e){
+            System.out.println(e.getMessage());
+        }
+        try{
+            elevator.boardPassenger(3);
+        }
+        catch (ElevatorFullException e){
+            System.out.println(e.getMessage());
+        }
 
         /*Board 1 passenger destined for floor 5*/
-        elevator.boardPassenger(5);
+        try {
+            elevator.boardPassenger(5);
+        }
+        catch (ElevatorFullException e){
+            System.out.println(e.getMessage());
+        }
+
+        /*Board a bunch of passengers destined for floor 6*/
+       for(int i=0;i<8;i++){
+            try {
+                elevator.boardPassenger(7);
+            }
+            catch (ElevatorFullException e){
+                System.out.println(e.getMessage());
+            }
+        }
 
         for (int i = 1; i < (Elevator.getNumFloors()) * 2; i++) {
             /*For each floor, print the current state.*/

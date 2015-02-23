@@ -8,7 +8,7 @@ public class Elevator {
     public static final int CAPACITY = 10;
     private int direction;
     private int currFloor;
-    /*@TODO Change all references to this thing to be refrences to the parent Building's Floor.*/
+    /*@TODO Change all references to this thing to be references to the parent Building's Floor.*/
     private int[][] floors;
     private Building building;
 
@@ -181,24 +181,12 @@ public class Elevator {
      *
      * @param floor the floor for which the passenger is destined
      */
-    public void boardPassenger(int floor) throws ElevatorFullException{
+    public void boardPassenger(int floor) throws ElevatorFullException {
+        if (passengers() + 1 > CAPACITY) {
+            throw new ElevatorFullException(this);
+        }
         /*Add 1 to the number of passengers destined for the indicated floor*/
         floors[floor - 1][0]++;
-        /*Mark the floor as a stop, regardless of whether it already is one*/
-        floors[floor - 1][1] = 1;
-    }
-
-    /**
-     * Adds 1 or more passengers to the Elevator, all destined for the specified floor
-     * @param floor the floor for which the passengers are destined
-     * @param numPassengers the number of passengers to board (integer greater than 0)
-     */
-    public void boardPassenger(int floor, int numPassengers)  throws ElevatorFullException{
-        if(numPassengers <= 0){
-            throw new IllegalArgumentException("The number of passengers must be greater than 0.");
-        }
-        /*Add the specified number of passengers to the number of passengers destined for the specified floor*/
-        floors[floor - 1][0] += numPassengers;
         /*Mark the floor as a stop, regardless of whether it already is one*/
         floors[floor - 1][1] = 1;
     }

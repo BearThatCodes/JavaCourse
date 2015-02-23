@@ -19,7 +19,7 @@ public class Building {
     public Building() {
         elevator = new Elevator(this);
         for(int i = 0;i<FLOORS;i++){
-            floors.set(i,new Floor(this,i));
+            floors.add(new Floor(this,i));
         }
     }
 
