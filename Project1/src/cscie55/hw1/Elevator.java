@@ -57,7 +57,7 @@ public class Elevator {
     }
 
     /**
-     * @return NUM_FLOORS the number of floors in the building
+     * @return FLOORS the number of floors in the building
      */
     public static int getNumFloors() {
         return numFloors;
@@ -78,7 +78,7 @@ public class Elevator {
     }
 
     /**
-     * @param oneIndex whether or not to convert the current floor to a 1 indexed value, like the variable NUM_FLOORS. True returns a 1 indexed floor number, while False returns a 0 indexed floor number.
+     * @param oneIndex whether or not to convert the current floor to a 1 indexed value, like the variable FLOORS. True returns a 1 indexed floor number, while False returns a 0 indexed floor number.
      * @return currFloor the current floor number, either 1 indexed or 0 indexed based on the value of the parameter
      */
     public int getCurrFloor(boolean oneIndex) {

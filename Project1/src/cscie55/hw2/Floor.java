@@ -23,5 +23,9 @@ public class Floor {
         return numPassengers;
     }
 
+    public void waitForElevator(){
+
+    }
+
 
 }
