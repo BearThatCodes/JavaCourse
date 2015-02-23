@@ -5,7 +5,7 @@ package cscie55.hw2;
  * @since 2015-02-10
  */
 public class Elevator {
-    public static final int numFloors = 7;
+    public static final int NUM_FLOORS = 7;
     public static final int CAPACITY = 10;
     private int direction;
     private int currFloor;
@@ -24,7 +24,7 @@ public class Elevator {
         *  element in the subarray is the number of passengers, an integer >= 0.
         *  The second element is the "stop here" flag, indicating whether the
         *  Elevator should stop (0 means no, 1 means yes).*/
-        floors = new int[numFloors][2];
+        floors = new int[NUM_FLOORS][2];
         this.building = building;
     }
 
@@ -38,7 +38,7 @@ public class Elevator {
     /*public Elevator(Building building,int direction, int currFloor) {
         this.direction = direction;
         this.currFloor = currFloor;
-        floors = new int[numFloors][2];
+        floors = new int[NUM_FLOORS][2];
     }*/
 
     /**
@@ -53,7 +53,7 @@ public class Elevator {
         this.direction = direction;
         this.currFloor = currFloor;
 
-        if (floors.length + 1 != numFloors) {
+        if (floors.length + 1 != NUM_FLOORS) {
             throw new IllegalArgumentException("The number of floors in the Elevator must match the number of floors in the building.");
         }
         else {
@@ -62,10 +62,10 @@ public class Elevator {
     }*/
 
     /**
-     * @return numFloors the number of floors in the building
+     * @return NUM_FLOORS the number of floors in the building
      */
     public static int getNumFloors() {
-        return numFloors;
+        return NUM_FLOORS;
     }
 
     /**
@@ -83,7 +83,7 @@ public class Elevator {
     }
 
     /**
-     * @param oneIndex whether or not to convert the current floor to a 1 indexed value, like the variable numFloors. True returns a 1 indexed floor number, while False returns a 0 indexed floor number.
+     * @param oneIndex whether or not to convert the current floor to a 1 indexed value, like the variable NUM_FLOORS. True returns a 1 indexed floor number, while False returns a 0 indexed floor number.
      * @return currFloor the current floor number, either 1 indexed or 0 indexed based on the value of the parameter
      */
     public int getCurrFloor(boolean oneIndex) {
@@ -120,7 +120,7 @@ public class Elevator {
      */
     public int passengers() {
         int numPassengers = 0;
-        for (int i = 0; i < numFloors; i++) {
+        for (int i = 0; i < NUM_FLOORS; i++) {
             numPassengers += floors[i][0];
         }
 
@@ -154,7 +154,7 @@ public class Elevator {
      */
     public void move() {
         /*If the Elevator is at the top or bottom floor, switch directions*/
-        if (currFloor == 0 || currFloor == numFloors - 1) {
+        if (currFloor == 0 || currFloor == NUM_FLOORS - 1) {
             toggleDirection();
         }
 
