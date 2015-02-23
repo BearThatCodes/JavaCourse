@@ -9,7 +9,7 @@ import java.util.List;
 public class Building {
     public static final int FLOORS = 7;
     private final Elevator elevator;
-    private ArrayList<Floor> floors = new ArrayList<Floor>(FLOORS);
+    protected ArrayList<Floor> floors = new ArrayList<Floor>(FLOORS);
 
     /**
      * Creates a new Building with default values.

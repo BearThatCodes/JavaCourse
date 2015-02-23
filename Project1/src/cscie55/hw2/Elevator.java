@@ -170,10 +170,14 @@ public class Elevator {
         }
 
         /*Clear the passengers destined for this floor.*/
-        floors[currFloor][0] = 0;
+        disembark(currFloor);
 
         /*Clear the "stop here" flag for this floor*/
         floors[currFloor][1] = 0;
+    }
+
+    private void disembark(int floor){
+        floors[floor][0] = 0;
     }
 
     /**
