@@ -2,8 +2,8 @@
   <artifact type="jar" name="hw1_sources">
     <output-path>$PROJECT_DIR$/toSubmit/hw1_sources</output-path>
     <root id="archive" name="Project1.jar">
-      <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw1/elevator/Elevator.java" />
-      <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw1/elevator/ElevatorTest.java" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw1/Elevator.java" />
+      <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw1/ElevatorTest.java" />
     </root>
   </artifact>
 </component>

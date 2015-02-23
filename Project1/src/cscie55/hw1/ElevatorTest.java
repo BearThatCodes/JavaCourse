@@ -1,4 +1,4 @@
-package cscie55.hw1.elevator;
+package cscie55.hw1;
 
 /**
  * @author Isaac Lebwohl-Steiner

@@ -1,11 +1,11 @@
-package cscie55.hw1.elevator;
+package cscie55.hw1;
 
 /**
  * @author Isaac Lebwohl-Steiner
  * @since 2015-02-10
  */
 public class Elevator {
-    private static final int numFloors = 7;
+    public static final int numFloors = 7;
     private int direction;
     private int currFloor;
     private int[][] floors;
