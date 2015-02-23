@@ -1,7 +1,6 @@
 package cscie55.hw2;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Isaac on 2/22/2015.
