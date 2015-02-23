@@ -21,6 +21,7 @@ public class Floor {
         catch (IllegalArgumentException e){
             System.out.println(e.getMessage());
         }
+        numPassengers = 0;
     }
 
     /**
