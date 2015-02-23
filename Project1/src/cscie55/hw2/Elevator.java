@@ -8,6 +8,7 @@ public class Elevator {
     public static final int CAPACITY = 10;
     private int direction;
     private int currFloor;
+    /*@TODO Change all references to this thing to be refrences to the parent Building's Floor.*/
     private int[][] floors;
     private Building building;
 
