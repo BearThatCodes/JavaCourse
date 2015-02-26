@@ -111,7 +111,8 @@ public class Elevator {
      * Moves the Elevator, making appropriate changes to state(
      * Change Elevator direction if necessary,
      * Change current floor,
-     * Disembark all passengers on the new floor)
+     * Disembark all passengers on the new floor
+     * Board all passengers that are waiting on the current floor, provided there is room)
      */
     public void move() {
         /*If the Elevator is at the top or bottom floor, switch directions*/
@@ -133,8 +134,25 @@ public class Elevator {
         /*Clear the passengers destined for this floor.*/
         disembark(currFloor);
 
-        /*Clear the "stop here" flag for this floor*/
-        floors[currFloor][1] = 0;
+        /*Board any waiting passengers*/
+        Floor floorObject = building.getFloor(currFloor);
+        /*If the current Floor has the "stop here" flag set, then board one passenger for every passenger on that floor.*/
+        if(floorObject.needsStop){
+            for(int i=0;i<floorObject.passengersWaiting();i++) {
+                try {
+                    /*We add the passenger to the Elevator first so that if it throws an exception, we never remove the passenger from the floor*/
+                    boardPassenger(1);
+                    floorObject.boardPassenger();
+
+                    /*Clear the "stop here" flag for this floor*/
+                    floors[currFloor][1] = 0;
+                }
+                catch (ElevatorFullException e){
+                    System.out.println("The Elevator is currently full but will keep trying to board the " + floorObject.passengersWaiting() + " passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
+                }
+            }
+        }
+
     }
 
     private void disembark(int floor){

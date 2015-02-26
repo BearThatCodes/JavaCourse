@@ -42,6 +42,17 @@ public class Floor {
     }
 
     /**
+     * Removes a single passenger from the floor. If that was the last passenger, sets the "stop here" flag to false.
+     */
+    public void boardPassenger(){
+        numPassengers--;
+
+        if(numPassengers == 0){
+            needsStop = false;
+        }
+    }
+
+    /**
      * Assigns the floor number to this Floor if the proposed floor number is valid (within the acceptable range and not already used in this Building).
      * @param floorNumber the floor number to check
      * @throws IllegalArgumentException
