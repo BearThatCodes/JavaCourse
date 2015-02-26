@@ -45,6 +45,10 @@ public class Floor {
      * Removes a single passenger from the floor. If that was the last passenger, sets the "stop here" flag to false.
      */
     public void boardPassenger(){
+        if(numPassengers == 0){
+            throw new UnsupportedOperationException("The number of passengers waiting on floor " + floorNumber + " must not go below 0.");
+        }
+
         numPassengers--;
 
         if(numPassengers == 0){
@@ -62,8 +66,8 @@ public class Floor {
             throw new IllegalArgumentException("The floor number must be between 0 and " + Building.FLOORS + " inclusive.");
         }
         for(Floor floor:building.floors){
-            if(floor.floorNumber == floorNumber){
-                throw new IllegalArgumentException("A Floor with this floor number already exists.");
+            if(floor.floorNumber == floorNumber && floorNumber != 0){
+                throw new IllegalArgumentException("A Floor with floor number " + floorNumber + " already exists.");
             }
         }
         this.floorNumber = floorNumber;
