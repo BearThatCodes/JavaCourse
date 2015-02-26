@@ -29,46 +29,6 @@ public class Elevator {
     }
 
     /**
-     * Creates a new Elevator with no passengers
-     *
-     * @param direction the direction of the Elevator, -1 means down, 1 means up, and 0 means it currently has no direction
-     * @param currFloor the floor on which the Elevator will start
-     */
-    /*@TODO See if I need this method.*/
-    /*public Elevator(Building building,int direction, int currFloor) {
-        this.direction = direction;
-        this.currFloor = currFloor;
-        floors = new int[FLOORS][2];
-    }*/
-
-    /**
-     * Creates a new Elevator with no default values.
-     *
-     * @param direction the direction of the Elevator, -1 means down, 1 means up, and 0 means it currently has no direction
-     * @param currFloor the floor on which the Elevator will start
-     * @param floors    an array of arrays each of which hold the number of passengers destined for a floor (first value) and a 0 or 1 flag to indicate whether the Elevator should stop at that floor (second value)
-     */
-    /*@TODO See if I need this method.*/
-    /*public Elevator(Building building,int direction, int currFloor, int[][] floors) {
-        this.direction = direction;
-        this.currFloor = currFloor;
-
-        if (floors.length + 1 != FLOORS) {
-            throw new IllegalArgumentException("The number of floors in the Elevator must match the number of floors in the building.");
-        }
-        else {
-            this.floors = floors;
-        }
-    }*/
-
-    /**
-     * @return FLOORS the number of floors in the building
-     */
-    public static int getNumFloors() {
-        return Building.FLOORS;
-    }
-
-    /**
      * @return direction the current direction of the elevator ()
      */
     public int getDirection() {
@@ -110,7 +70,7 @@ public class Elevator {
      * @return numPassengers the number of passengers destined for the specified floor
      */
     public int passengers(int floor) {
-        return floors[floor - 1][0];
+        return building.getFloor(floor).passengersWaiting();
     }
 
     /**
@@ -120,8 +80,9 @@ public class Elevator {
      */
     public int passengers() {
         int numPassengers = 0;
-        for (int i = 0; i < Building.FLOORS; i++) {
-            numPassengers += floors[i][0];
+
+        for(Floor floor : building.floors) {
+            numPassengers += floor.passengersWaiting();
         }
 
         return numPassengers;

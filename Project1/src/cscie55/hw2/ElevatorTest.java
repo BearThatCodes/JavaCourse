@@ -43,7 +43,7 @@ public class ElevatorTest {
             }
         }
 
-        for (int i = 1; i < (Elevator.getNumFloors()) * 2; i++) {
+        for (int i = 1; i < (Building.getNumFloors()) * 2; i++) {
             /*For each floor, print the current state.*/
             System.out.println(elevator.toString());
             /*Moves the Elevator to the next floor*/

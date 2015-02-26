@@ -7,6 +7,7 @@ public class Floor {
     private int numPassengers;
     private int floorNumber;
     private Building building;
+    protected boolean needsStop = false;
 
     /**
      * Creates a new Floor tied to the specified Building and with a given floorNumber.
@@ -32,8 +33,12 @@ public class Floor {
         return numPassengers;
     }
 
+    /**
+     * Increase the number of passengers waiting on this floor by 1 and mark this floor as requiring a stop.
+     */
     public void waitForElevator(){
-
+        numPassengers++;
+        needsStop = true;
     }
 
     /**
@@ -42,8 +47,8 @@ public class Floor {
      * @throws IllegalArgumentException
      */
     private void assignFloorNumber(int floorNumber) throws IllegalArgumentException{
-        if(floorNumber < 1 || floorNumber > building.FLOORS){
-            throw new IllegalArgumentException("The floor number must be between 1 and " + building.FLOORS + " inclusive.");
+        if(floorNumber < 0 || floorNumber > building.FLOORS){
+            throw new IllegalArgumentException("The floor number must be between 0 and " + building.FLOORS + " inclusive.");
         }
         for(Floor floor:building.floors){
             if(floor.floorNumber == floorNumber){
@@ -52,6 +57,4 @@ public class Floor {
         }
         this.floorNumber = floorNumber;
     }
-
-
 }

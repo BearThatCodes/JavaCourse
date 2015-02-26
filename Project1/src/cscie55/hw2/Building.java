@@ -23,10 +23,29 @@ public class Building {
     }
 
     /**
+     * @return FLOORS the number of floors in the building
+     */
+    public static int getNumFloors() {
+        return FLOORS;
+    }
+
+    /**
      * Returns the Elevator associated with this Building.
      * @return elevator the Elevator associated with this Building.
      */
     public Elevator elevator(){
         return elevator;
+    }
+
+    /**
+     * Get the Floor object with the specified floor number
+     * @param floorNumber the 0-indexed floor number of the Floor to be returned, must be between 0 and FLOORS-1 inclusive
+     * @return floor the Floor object with the specified floor number
+     */
+    public Floor getFloor(int floorNumber) throws IllegalArgumentException{
+        if(floorNumber < 0 || floorNumber >= FLOORS){
+            throw new IllegalArgumentException("The floor number " + floorNumber + " is invalid. Floor number must be between 0 and " + (FLOORS - 1) + " inclusive.");
+        }
+        return floors.get(floorNumber);
     }
 }
