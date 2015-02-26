@@ -58,8 +58,8 @@ public class Floor {
      * @throws IllegalArgumentException
      */
     private void assignFloorNumber(int floorNumber) throws IllegalArgumentException{
-        if(floorNumber < 0 || floorNumber > building.FLOORS){
-            throw new IllegalArgumentException("The floor number must be between 0 and " + building.FLOORS + " inclusive.");
+        if(floorNumber < 0 || floorNumber > Building.FLOORS){
+            throw new IllegalArgumentException("The floor number must be between 0 and " + Building.FLOORS + " inclusive.");
         }
         for(Floor floor:building.floors){
             if(floor.floorNumber == floorNumber){

@@ -1,6 +1,5 @@
 package cscie55.hw2;
 
-import cscie55.hw2.Building;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +22,7 @@ public class BuildingTest {
 
     @Test
     public void testCreateBuilding() throws Exception {
-        assertEquals("The number of floors in the ArrayList should equal the FLOORS constant.",building.FLOORS,building.floors.size());
+        assertEquals("The number of floors in the ArrayList should equal the FLOORS constant.",Building.FLOORS,building.floors.size());
     }
 
     @Test
