@@ -2,7 +2,7 @@ package cscie55.hw2;
 
 /**
  * @author Isaac Lebwohl-Steiner
- * @since 2015-02-10
+ * @since 2015-02-26
  */
 public class Elevator {
     public static final int CAPACITY = 10;

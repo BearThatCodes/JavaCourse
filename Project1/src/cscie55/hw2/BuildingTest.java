@@ -1,10 +1,16 @@
 package cscie55.hw2;
 
+import cscie55.hw2.Building;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+
+/**
+ * @author Isaac Lebwohl-Steiner
+ * @since 2015-02-26
+ */
 
 public class BuildingTest {
 

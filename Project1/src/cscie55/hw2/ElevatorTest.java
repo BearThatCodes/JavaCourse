@@ -6,6 +6,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * @author Isaac Lebwohl-Steiner
+ * @since 2015-02-26
+ */
+
 public class ElevatorTest {
 
     Building building = new Building();
@@ -93,7 +98,7 @@ public class ElevatorTest {
         /*To Floor 5*/
         elevator.move();
 
-        assertTrue("There should be the maximum number of passengers, but there are " + elevator.passengers(),elevator.passengers() == elevator.CAPACITY);
+        assertTrue("There should be the maximum number of passengers, but there are " + elevator.passengers(),elevator.passengers() == Elevator.CAPACITY);
 
         assertTrue("The current floor should be 5", elevator.currentFloor(true) == 5);
 

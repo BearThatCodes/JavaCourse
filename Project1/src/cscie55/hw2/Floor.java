@@ -1,7 +1,8 @@
 package cscie55.hw2;
 
 /**
- * Created by Isaac on 2/22/2015.
+ * @author Isaac Lebwohl-Steiner
+ * @since 2015-02-26
  */
 public class Floor {
     private int numPassengers;
