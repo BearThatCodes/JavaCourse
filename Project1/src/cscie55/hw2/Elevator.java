@@ -119,6 +119,25 @@ public class Elevator {
             toggleDirection();
         }
 
+        /*Clear the passengers destined for this floor.*/
+        disembark(currFloor);
+
+        /*Board any waiting passengers*/
+
+        Floor floorObject = building.getFloor(currFloor);
+
+        /*If the current Floor has the "stop here" flag set, then board one passenger for every passenger on that floor.*/
+        if(floorObject.needsStop){
+            for(int i=0;i<=floorObject.passengersWaiting();i++) {
+                try {
+                    boardPassenger(1);
+                }
+                catch (ElevatorFullException e){
+                    System.out.println("The Elevator is currently full but will keep trying to board the " + floorObject.passengersWaiting() + " passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
+                }
+            }
+        }
+
         /*Increase or decrease the floor as appropriate*/
         if (direction == 1) {
             currFloor++;
@@ -130,31 +149,9 @@ public class Elevator {
             throw new UnsupportedOperationException("Cannot move Elevator without a direction. Direction is currently " + direction + ".");
         }
 
-        /*Clear the passengers destined for this floor.*/
-        disembark(currFloor);
-
-        /*Board any waiting passengers*/
-        Floor floorObject = building.getFloor(currFloor);
-        /*If the current Floor has the "stop here" flag set, then board one passenger for every passenger on that floor.*/
-        if(floorObject.needsStop){
-            System.out.println("There are " + floorObject.passengersWaiting() + " passengers waiting");
-            for(int i=0;i<floorObject.passengersWaiting();i++) {
-                try {
-                    boardPassenger(1);
-
-                    /*Clear the "stop here" flag for this floor*/
-                    /*floors[currFloor][1] = 0;*/
-                }
-                catch (ElevatorFullException e){
-                    System.out.println("The Elevator is currently full but will keep trying to board the " + floorObject.passengersWaiting() + " passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
-                }
-            }
-        }
-
     }
 
     private void disembark(int floor){
-        System.out.println("Disembarking " + floors[floor][0]);
         floors[floor][0] = 0;
     }
 
@@ -170,8 +167,11 @@ public class Elevator {
         /*Add 1 to the number of passengers destined for the indicated floor*/
         floors[floor - 1][0]++;
 
-        /*Mark the floor as a stop, regardless of whether it already is one*/
+        /*Mark the destination floor as a stop, regardless of whether it already is one*/
         floors[floor - 1][1] = 1;
+
+        /*Clear the "stop here" flag for the current floor*/
+        floors[currFloor][1] = 0;
 
         /*Tell the Floor that we are boarding a passenger*/
         building.getFloor(currFloor).boardPassenger();

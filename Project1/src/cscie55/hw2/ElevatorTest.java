@@ -34,71 +34,73 @@ public class ElevatorTest {
 
     @Test
     public void testGetFloors() throws Exception {
-        assertTrue("The floors array (" + elevator.getFloors().length + ") should be the same size as the FLOORS constant (" + building.FLOORS + ")",elevator.getFloors().length == building.FLOORS);
+        assertTrue("The floors array (" + elevator.getFloors().length + ") should be the same size as the FLOORS constant (" + Building.FLOORS + ")",elevator.getFloors().length == Building.FLOORS);
     }
 
     @Test
     public void testMove() throws Exception {
-        /*Add two passengers on floor 0 that are waiting for the elevator*/
+        /*Add three passengers on floor 0 that are waiting for the elevator*/
+        building.getFloor(0).waitForElevator();
         building.getFloor(0).waitForElevator();
         building.getFloor(0).waitForElevator();
 
-        /*Board a passenger for floor 2*/
+        /*Board a passenger for floor 2, 1 indexed*/
         elevator.boardPassenger(2);
 
-        /*Board a passenger for floor 1*/
+        /*Board a passenger for floor 1, 1 indexed*/
         elevator.boardPassenger(1);
 
-        System.out.println(elevator.toString() + " in elevator, " + building.getFloor(elevator.currentFloor()).passengersWaiting() + " waiting");
+        /*Board a passenger for floor 6, 1 indexed*/
+        elevator.boardPassenger(6);
 
+        assertTrue("There should be 3 passengers on the elevator and none waiting on floor 0",elevator.passengers() == 3 && building.getFloor(0).passengersWaiting() == 0);
+
+        /*To Floor 2*/
         elevator.move();
 
         assertTrue("The direction should be 1 but is " + elevator.getDirection(),elevator.getDirection() == 1);
 
-        assertTrue("The current floor should be 1 but is " + elevator.currentFloor(),elevator.currentFloor() == 1);
+        assertTrue("The current floor should be 2 but is " + elevator.currentFloor(true),elevator.currentFloor(true) == 2);
 
-        assertTrue("The number of passengers on the elevator should be 1 but is " + elevator.passengers(),elevator.passengers() == 1);
+        assertTrue("The number of passengers on the elevator should be 2 but is " + elevator.passengers(), elevator.passengers() == 2);
 
-        /*Add two passengers to floor 2 before we arrive there*/
+        /*Add two passengers to floor 3 (1 indexed) before we arrive there*/
         building.getFloor(2).waitForElevator();
         building.getFloor(2).waitForElevator();
 
-        System.out.println(elevator.toString() + " in elevator, " + building.getFloor(elevator.currentFloor()).passengersWaiting() + " waiting");
+        assertTrue("There should be 2 passengers waiting on floor 3 (2 if 0 indexed), but there are " + building.getFloor(2).passengersWaiting(), building.getFloor(2).passengersWaiting() == 2);
 
+        /*To Floor 3*/
         elevator.move();
 
-        assertTrue("1 passenger should have left, and two should have boarded, leaving us with 2 total",elevator.passengers() == 2);
+        assertTrue("1 passenger should have left, leaving us with 1 total, but there are " + elevator.passengers() + " on the elevator",elevator.passengers() == 1);
 
-        assertTrue("There should be no passengers waiting on floor 4",building.getFloor(4).passengersWaiting() == 0);
+        assertTrue("There should be 2 passengers waiting on floor 3 (1 indexed) but there are " + building.getFloor(2).passengersWaiting(),building.getFloor(2).passengersWaiting() == 2);
 
-        /*Add 10 passengers to floor 3*/
-        for(int i=0;i<12;i++){
+        /*Add 12 passengers to floor 4 (1 indexed)*/
+        for(int i=1;i<=12;i++){
             building.getFloor(3).waitForElevator();
-            assertTrue("There should be " + (i+1) + " passengers waiting on floor 4, but there are " + building.getFloor(4).passengersWaiting(), (i+1) == building.getFloor(3).passengersWaiting());
+            assertTrue("There should be " + (i) + " passengers waiting on floor 4, but there are " + building.getFloor(3).passengersWaiting(), (i) == building.getFloor(3).passengersWaiting());
         }
 
-        System.out.println("There are " + building.getFloor(3).passengersWaiting() + " passengers on floor 3");
-
-        System.out.println(elevator.toString() + " in elevator, " + building.getFloor(elevator.currentFloor()).passengersWaiting() + " waiting");
-
+        /*To Floor 4*/
         elevator.move();
 
-        /*assertTrue("There should be the maximum number of passengers, but there are " + elevator.passengers(),elevator.passengers() == elevator.CAPACITY);*/
+        assertTrue("There should be no passengers waiting on floor 3 (2 if 0 indexed), but there are " + building.getFloor(2).passengersWaiting(), building.getFloor(2).passengersWaiting() == 0);
 
-        assertTrue("The current floor should be 3",elevator.currentFloor() == 3);
+        assertTrue("The current floor should be 4 but is " + elevator.currentFloor(true), elevator.currentFloor(true) == 4);
 
-        System.out.println(elevator.toString() + " in elevator, " + building.getFloor(elevator.currentFloor()).passengersWaiting() + " waiting");
-
+        /*To Floor 5*/
         elevator.move();
 
-        assertTrue("The current floor should be 4",elevator.currentFloor() == 4);
+        assertTrue("There should be the maximum number of passengers, but there are " + elevator.passengers(),elevator.passengers() == elevator.CAPACITY);
 
-        System.out.println(elevator.toString() + " in elevator, " + building.getFloor(elevator.currentFloor()).passengersWaiting() + " waiting");
+        assertTrue("The current floor should be 5", elevator.currentFloor(true) == 5);
 
-        elevator.move();
-
-        System.out.println(elevator.toString() + " in elevator, " + building.getFloor(elevator.currentFloor()).passengersWaiting() + " waiting");
-
+        /*Move the Elevator up to floor 7, back down to floor 1, and then start back up, ending on floor 2*/
+        for(int i=6;i<=2;i++){
+            elevator.move();
+        }
     }
 
     @Test
@@ -110,10 +112,5 @@ public class ElevatorTest {
         elevator.boardPassenger(2);
 
         assertTrue("The number of passengers bound for floor 2 should be 1 but is " + elevator.passengers(2),elevator.passengers(2) == 1);
-    }
-
-    @Test
-    public void testToString() throws Exception {
-
     }
 }
