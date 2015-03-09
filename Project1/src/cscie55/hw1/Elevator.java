@@ -73,21 +73,8 @@ public class Elevator {
     /**
      * @return currFloor the floor the Elevator is currently on (0 indexed)
      */
-    public int getCurrFloor() {
-        return currFloor;
-    }
-
-    /**
-     * @param oneIndex whether or not to convert the current floor to a 1 indexed value, like the variable FLOORS. True returns a 1 indexed floor number, while False returns a 0 indexed floor number.
-     * @return currFloor the current floor number, either 1 indexed or 0 indexed based on the value of the parameter
-     */
-    public int getCurrFloor(boolean oneIndex) {
-        if (oneIndex) {
-            return getCurrFloor() + 1;
-        }
-        else {
-            return getCurrFloor();
-        }
+    public int currentFloor() {
+        return currFloor + 1;
     }
 
     /**
@@ -148,6 +135,8 @@ public class Elevator {
      * Disembark all passengers on the new floor)
      */
     public void move() {
+        System.out.println("Before move: " + toString());
+
         /*If the Elevator is at the top or bottom floor, switch directions*/
         if (currFloor == 0 || currFloor == numFloors - 1) {
             toggleDirection();
@@ -169,6 +158,8 @@ public class Elevator {
 
         /*Clear the "stop here" flag for this floor*/
         floors[currFloor][1] = 0;
+
+        System.out.println("After move: " + toString());
     }
 
     /**
@@ -199,6 +190,6 @@ public class Elevator {
     }
 
     public String toString() {
-        return "Floor " + getCurrFloor(true) + ": " + getNumPassengers() + " passengers";
+        return "Floor " + currentFloor() + ": " + getNumPassengers() + " passengers";
     }
 }

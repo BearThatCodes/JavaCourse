@@ -43,10 +43,10 @@ public class Building {
      * @param floorNumber the 0-indexed floor number of the Floor to be returned, must be between 0 and FLOORS-1 inclusive
      * @return floor the Floor object with the specified floor number
      */
-    public Floor getFloor(int floorNumber) throws IllegalArgumentException{
-        if(floorNumber < 0 || floorNumber >= FLOORS){
-            throw new IllegalArgumentException("The floor number " + floorNumber + " is invalid. Floor number must be between 0 and " + (FLOORS - 1) + " inclusive.");
+    public Floor floor(int floorNumber) throws IllegalArgumentException{
+        if(floorNumber < 1 || floorNumber >= FLOORS + 1){
+            throw new IllegalArgumentException("The floor number " + floorNumber + " is invalid. Floor number must be between 1 and " + (FLOORS) + " inclusive.");
         }
-        return floors.get(floorNumber);
+        return floors.get(floorNumber - 1);
     }
 }

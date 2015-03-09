@@ -47,7 +47,8 @@ public class Floor {
      */
     public void boardPassenger(){
         if(numPassengers == 0){
-            throw new UnsupportedOperationException("The number of passengers waiting on floor " + floorNumber + " must not go below 0.");
+            //Add a passenger to the floor
+            numPassengers++;
         }
 
         numPassengers--;

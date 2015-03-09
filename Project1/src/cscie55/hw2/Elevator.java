@@ -8,7 +8,6 @@ public class Elevator {
     public static final int CAPACITY = 10;
     private int direction;
     private int currFloor;
-    /*@TODO Change all references to this thing to be references to the parent Building's Floor.*/
     private int[][] floors;
     private Building building;
 
@@ -39,20 +38,7 @@ public class Elevator {
      * @return currFloor the floor the Elevator is currently on (0 indexed)
      */
     public int currentFloor() {
-        return currFloor;
-    }
-
-    /**
-     * @param oneIndex whether or not to convert the current floor to a 1 indexed value, like the variable FLOORS. True returns a 1 indexed floor number, while False returns a 0 indexed floor number.
-     * @return currFloor the current floor number, either 1 indexed or 0 indexed based on the value of the parameter
-     */
-    public int currentFloor(boolean oneIndex) {
-        if (oneIndex) {
-            return currentFloor() + 1;
-        }
-        else {
-            return currentFloor();
-        }
+        return currFloor + 1;
     }
 
     /**
@@ -119,25 +105,6 @@ public class Elevator {
             toggleDirection();
         }
 
-        /*Clear the passengers destined for this floor.*/
-        disembark(currFloor);
-
-        /*Board any waiting passengers*/
-
-        Floor floorObject = building.getFloor(currFloor);
-
-        /*If the current Floor has the "stop here" flag set, then board one passenger for every passenger on that floor.*/
-        if(floorObject.needsStop){
-            for(int i=0;i<=floorObject.passengersWaiting();i++) {
-                try {
-                    boardPassenger(1);
-                }
-                catch (ElevatorFullException e){
-                    System.out.println("The Elevator is currently full but will keep trying to board the " + floorObject.passengersWaiting() + " passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
-                }
-            }
-        }
-
         /*Increase or decrease the floor as appropriate*/
         if (direction == 1) {
             currFloor++;
@@ -149,6 +116,23 @@ public class Elevator {
             throw new UnsupportedOperationException("Cannot move Elevator without a direction. Direction is currently " + direction + ".");
         }
 
+        /*Clear the passengers destined for this floor.*/
+        disembark(currFloor);
+
+        /*Board any waiting passengers*/
+        Floor floorObject = building.floor(currFloor + 1);
+
+        /*If the current Floor has the "stop here" flag set, then board one passenger for every passenger on that floor.*/
+        if(floorObject.needsStop){
+            while(floorObject.passengersWaiting() > 0 && passengers() != CAPACITY){
+                try {
+                    boardPassenger(1);
+                }
+                catch (ElevatorFullException e){
+                    System.out.println("The Elevator is currently full but will keep trying to board the " + floorObject.passengersWaiting() + " passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
+                }
+            }
+        }
     }
 
     private void disembark(int floor){
@@ -174,10 +158,10 @@ public class Elevator {
         floors[currFloor][1] = 0;
 
         /*Tell the Floor that we are boarding a passenger*/
-        building.getFloor(currFloor).boardPassenger();
+        building.floor(currFloor + 1).boardPassenger();
     }
 
     public String toString() {
-        return "Floor " + currentFloor(true) + ": " + passengers() + " passengers";
+        return "Floor " + currentFloor() + ": " + passengers() + " passengers";
     }
 }
