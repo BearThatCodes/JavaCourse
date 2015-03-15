@@ -62,7 +62,7 @@ public class Passenger {
             output += "on the Elevator and ";
         }
         else{
-            output += "on floor " + currentFloor + " and "
+            output += "on floor " + currentFloor + " and ";
         }
 
         if(destinationFloor == UNDEFINED_FLOOR){
