@@ -1,7 +1,5 @@
 package cscie55.hw3;
 
-import cscie55.hw2.*;
-
 import java.util.ArrayList;
 
 /**

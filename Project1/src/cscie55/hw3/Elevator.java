@@ -1,8 +1,5 @@
 package cscie55.hw3;
 
-import cscie55.hw2.*;
-import cscie55.hw2.Floor;
-
 import java.util.ArrayList;
 
 /**
@@ -65,27 +62,12 @@ public class Elevator {
     }
 
     /**
-     * Returns an ArrayList of the passengers currently on the Elevator
+     * Returns an ArrayList of Passengers that are currently on the Elevator
      *
-     * @param floor the floor for which you want the number of passengers
-     * @return passengers an ArrayList of the passengers currently on the Elevator
+     * @return passengers an ArrayList of Passengers that are currently on the Elevator
      */
-    public ArrayList<Passenger> passengers(int floor) {
+    public ArrayList<Passenger> passengers() {
         return passengers;
-    }
-
-    /**
-     * Returns the total number of passengers, regardless of the floors for which they are destined
-     *
-     * @return numPassengers the number of total passengers in the Elevator
-     */
-    public int passengers() {
-        int numPassengers = 0;
-        for (int i = 0; i < cscie55.hw2.Building.FLOORS; i++) {
-            numPassengers += floors[i][0];
-        }
-
-        return numPassengers;
     }
 
     /**

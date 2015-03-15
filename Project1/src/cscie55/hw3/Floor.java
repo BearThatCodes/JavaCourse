@@ -1,7 +1,5 @@
 package cscie55.hw3;
 
-import cscie55.hw2.Building;
-
 /**
  * @author Isaac Lebwohl-Steiner
  * @since 2015-02-26
@@ -32,7 +30,7 @@ public class Floor {
      * Returns the number of passengers on this floor that are waiting for the Elevator.
      * @return numPassengers the number of passengers waiting for the Elevator.
      */
-    public int passengersWaiting(){
+    protected int passengersWaiting(){
         return numPassengers;
     }
 
