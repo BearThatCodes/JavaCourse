@@ -3,6 +3,8 @@ package cscie55.hw3;
 import cscie55.hw2.*;
 import cscie55.hw2.Floor;
 
+import java.util.ArrayList;
+
 /**
  * @author Isaac Lebwohl-Steiner
  * @since 2015-02-26
@@ -12,6 +14,7 @@ public class Elevator {
     private int direction;
     private int currFloor;
     private int[][] floors;
+    private ArrayList<Passenger> passengers;
     private cscie55.hw2.Building building;
 
     /**
@@ -62,13 +65,13 @@ public class Elevator {
     }
 
     /**
-     * Returns the number of passengers destined for a given floor
+     * Returns an ArrayList of the passengers currently on the Elevator
      *
      * @param floor the floor for which you want the number of passengers
-     * @return numPassengers the number of passengers destined for the specified floor
+     * @return passengers an ArrayList of the passengers currently on the Elevator
      */
-    public int passengers(int floor) {
-        return floors[floor - 1][0];
+    public ArrayList<Passenger> passengers(int floor) {
+        return passengers;
     }
 
     /**
