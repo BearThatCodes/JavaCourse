@@ -17,7 +17,7 @@ public class Passenger {
     }
 
     /**
-     * Returns the Passenger's current floor number as an integer, or -1 if they are not on a floor
+     * Returns the Passenger's current floor number as an integer, or -1 if they are not on a floor.
      * @return currentFloor an integer representing the Passenger's current floor number
      */
     public int currentFloor(){
@@ -25,7 +25,7 @@ public class Passenger {
     }
 
     /**
-     * Returns the Passenger's current floor number, or -1 if they have no destination
+     * Returns the Passenger's current floor number, or -1 if they have no destination.
      * @return destinationFloor the Passenger's destination floor
      */
     public int destinationFloor(){
@@ -33,7 +33,7 @@ public class Passenger {
     }
 
     /**
-     * Sets a new destination for the Passenger, overwriting any previous destination they may have had
+     * Sets a new destination for the Passenger, overwriting any previous destination they may have had.
      * @param newDestinationFloor an integer representing the Passenger's new destination floor
      */
     public void waitForElevator(int newDestinationFloor){
@@ -48,7 +48,7 @@ public class Passenger {
     }
 
     /**
-     * Sets the current floor to the Passenger's destination floor and clears the destination floor
+     * Sets the current floor to the Passenger's destination floor and clears the destination floor.
      */
     public void arrive(){
         destinationFloor = currentFloor;

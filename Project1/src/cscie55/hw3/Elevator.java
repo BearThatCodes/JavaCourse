@@ -31,10 +31,19 @@ public class Elevator {
     }
 
     /**
-     * @return direction the current direction of the elevator (-1 means down, 1 means up, and 0 means it currently has no direction)
+     * Returns TRUE if the Elevator is currently going up, and FALSE otherwise.
+     * @return boolean TRUE if the Elevator is going up
      */
-    public int getDirection() {
-        return direction;
+    public boolean goingUp(){
+        return direction == 1;
+    }
+
+    /**
+     * Returns TRUE if the Elevator is currently going down, and FALSE otherwise.
+     * @return boolean TRUE if the Elevator is going down
+     */
+    public boolean goingDown(){
+        return direction == -1;
     }
 
     /**
@@ -82,10 +91,10 @@ public class Elevator {
      * @return direction the new direction of the Elevator
      */
     private int toggleDirection() {
-        if (direction == 1) {
+        if (goingUp()) {
             direction = -1;
         }
-        else if (direction == -1) {
+        else if (goingDown()) {
             direction = 1;
         }
         else {
@@ -109,10 +118,10 @@ public class Elevator {
         }
 
         /*Increase or decrease the floor as appropriate*/
-        if (direction == 1) {
+        if (goingUp()) {
             currFloor++;
         }
-        else if (direction == -1) {
+        else if (goingDown()) {
             currFloor--;
         }
         else {
