@@ -9,14 +9,12 @@
           <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw2/ElevatorFullException.java" />
           <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw2/Floor.java" />
         </element>
-        <element id="directory" name="hw2_test">
-          <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw2/BuildingTest.java" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw2/ElevatorFullExceptionTest.java" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw2/ElevatorTest.java" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw2/FloorTest.java" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw2/TestRunner.java" />
-          <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw2/TestElevatorSimulation.java" />
+        <element id="directory" name="hw2test">
+          <element id="file-copy" path="$PROJECT_DIR$/src/cscie55/hw2test/HW2ElevatorSimulationTest.java" />
         </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/META-INF/MANIFEST.MF" />
       </element>
     </root>
   </artifact>

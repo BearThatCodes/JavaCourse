@@ -1,27 +1,17 @@
 <component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="hw2">
+  <artifact type="jar" name="hw2">
     <output-path>D:/Desktop/hw2</output-path>
     <root id="archive" name="hw2.jar">
-      <element id="directory" name="hw2">
-        <element id="directory" name="cscie55">
-          <element id="directory" name="hw2">
-            <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/Building.class" />
-            <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/Elevator.class" />
-            <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/ElevatorFullException.class" />
-            <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/Floor.class" />
-          </element>
-          <element id="directory" name="hw2_test">
-            <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/BuildingTest.class" />
-            <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/ElevatorFullExceptionTest.class" />
-            <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/ElevatorTest.class" />
-            <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/FloorTest.class" />
-            <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/TestElevatorSimulation.class" />
-            <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/TestRunner.class" />
-          </element>
+      <element id="directory" name="cscie55">
+        <element id="directory" name="hw2">
+          <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/Building.class" />
+          <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/Elevator.class" />
+          <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/ElevatorFullException.class" />
+          <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2/Floor.class" />
         </element>
-      </element>
-      <element id="directory" name="META-INF">
-        <element id="file-copy" path="D:/Desktop/hw2/META-INF/MANIFEST.MF" />
+        <element id="directory" name="hw2test">
+          <element id="file-copy" path="$PROJECT_DIR$/out/production/Project1/cscie55/hw2test/HW2ElevatorSimulationTest.class" />
+        </element>
       </element>
     </root>
   </artifact>
