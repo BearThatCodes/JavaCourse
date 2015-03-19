@@ -8,17 +8,18 @@ import java.util.ArrayList;
  */
 public class Elevator {
     public static final int CAPACITY = 10;
-    private int direction;
+    private Direction direction;
     private int currFloor;
     private int[][] floors;
     private ArrayList<Passenger> passengers;
-    private cscie55.hw2.Building building;
+    private Building building;
+    public enum Direction {UP,DOWN,NONE}
 
     /**
      * Creates a new Elevator with default values
      */
-    public Elevator(cscie55.hw2.Building building) {
-        direction = -1;
+    public Elevator(Building building) {
+        direction = Direction.DOWN;
         currFloor = 0;
         /* Creates an empty array to hold the number of floors in the building
         *  and two pieces of information for each floor, the number of passengers
@@ -26,7 +27,7 @@ public class Elevator {
         *  element in the subarray is the number of passengers, an integer >= 0.
         *  The second element is the "stop here" flag, indicating whether the
         *  Elevator should stop (0 means no, 1 means yes).*/
-        floors = new int[cscie55.hw2.Building.FLOORS][2];
+        floors = new int[Building.FLOORS][2];
         this.building = building;
     }
 
@@ -35,7 +36,7 @@ public class Elevator {
      * @return boolean TRUE if the Elevator is going up
      */
     public boolean goingUp(){
-        return direction == 1;
+        return direction == Direction.UP;
     }
 
     /**
@@ -43,7 +44,7 @@ public class Elevator {
      * @return boolean TRUE if the Elevator is going down
      */
     public boolean goingDown(){
-        return direction == -1;
+        return direction == Direction.DOWN;
     }
 
     /**
@@ -55,7 +56,6 @@ public class Elevator {
 
     /**
      * @return floors the array containing floor and passenger information for this Elevator
-     * @see cscie55.hw3.Elevator#Elevator(cscie55.hw2.Building building)
      */
     public int[][] getFloors() {
         return floors;
@@ -75,15 +75,15 @@ public class Elevator {
      *
      * @return direction the new direction of the Elevator
      */
-    private int toggleDirection() {
+    private Direction toggleDirection() {
         if (goingUp()) {
-            direction = -1;
+            direction = Direction.DOWN;
         }
         else if (goingDown()) {
-            direction = 1;
+            direction = Direction.UP;
         }
         else {
-            direction = 0;
+            direction = Direction.NONE;
         }
 
         return direction;
@@ -98,7 +98,7 @@ public class Elevator {
      */
     public void move() {
         /*If the Elevator is at the top or bottom floor, switch directions*/
-        if (currFloor == 0 || currFloor == cscie55.hw2.Building.FLOORS - 1) {
+        if (currFloor == 0 || currFloor == Building.FLOORS - 1) {
             toggleDirection();
         }
 
@@ -121,12 +121,12 @@ public class Elevator {
 
         /*If the current Floor has the "stop here" flag set, then board one passenger for every passenger on that floor.*/
         if(floorObject.needsStop){
-            while(floorObject.passengersWaiting() > 0 && passengers() != CAPACITY){
+            while(floorObject.needsStop && passengers().size() != CAPACITY){
                 try {
                     boardPassenger(1);
                 }
                 catch (ElevatorFullException e){
-                    System.out.println("The Elevator is currently full but will keep trying to board the " + floorObject.passengersWaiting() + " passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
+                    System.out.println("The Elevator is currently full but will keep trying to board the passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
                 }
             }
         }

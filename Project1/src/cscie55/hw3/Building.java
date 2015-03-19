@@ -43,10 +43,18 @@ public class Building {
      * @param floorNumber the 0-indexed floor number of the Floor to be returned, must be between 0 and FLOORS-1 inclusive
      * @return floor the Floor object with the specified floor number
      */
-    public cscie55.hw2.Floor floor(int floorNumber) throws IllegalArgumentException{
+    public Floor floor(int floorNumber) throws IllegalArgumentException{
         if(floorNumber < 1 || floorNumber >= FLOORS + 1){
             throw new IllegalArgumentException("The floor number " + floorNumber + " is invalid. Floor number must be between 1 and " + (FLOORS) + " inclusive.");
         }
         return floors.get(floorNumber - 1);
+    }
+
+    /**
+     * Adds a new Passenger to the ground Floor
+     * @param passenger the Passenger to be added
+     */
+    public void enter(Passenger passenger){
+        floor(1).enterGroundFloor(passenger);
     }
 }

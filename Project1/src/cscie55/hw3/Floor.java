@@ -1,14 +1,19 @@
 package cscie55.hw3;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * @author Isaac Lebwohl-Steiner
  * @since 2015-02-26
  */
 public class Floor {
-    private int numPassengers;
     private int floorNumber;
     private Building building;
-    protected boolean needsStop = false;
+    //We use a LinkedList because it implements the Queue interface, providing desired functionality
+    private LinkedList<Passenger> passengersGoingUp;
+    private LinkedList<Passenger> passengersGoingDown;
+    private LinkedList<Passenger> passengersResident;
 
     /**
      * Creates a new Floor tied to the specified Building and with a given floorNumber.
@@ -23,38 +28,81 @@ public class Floor {
         catch (IllegalArgumentException e){
             System.out.println(e.getMessage());
         }
-        numPassengers = 0;
-    }
-
-    /**
-     * Returns the number of passengers on this floor that are waiting for the Elevator.
-     * @return numPassengers the number of passengers waiting for the Elevator.
-     */
-    protected int passengersWaiting(){
-        return numPassengers;
+        passengersGoingUp = new LinkedList<Passenger>();
+        passengersGoingDown = new LinkedList<Passenger>();
+        passengersResident = new LinkedList<Passenger>();
     }
 
     /**
      * Increase the number of passengers waiting on this floor by 1 and mark this floor as requiring a stop.
      */
-    public void waitForElevator(){
-        numPassengers++;
-        needsStop = true;
+    public void waitForElevator(Passenger passenger,int destinationFloor){
+        if(destinationFloor > floorNumber){
+            passengersGoingUp.add(passenger);
+        }
+        else if(destinationFloor < floorNumber){
+            passengersGoingDown.add(passenger);
+        }
+        else{
+            //If they're waiting to reach this floor, then why not just have them become resident?
+            passengersResident.add(passenger);
+        }
+    }
+
+    /**
+     * Indicates if the indicated Passenger is resident on this Floor
+     * @param passenger the Passenger object to check
+     * @return boolean TRUE if the Passenger is resident, FALSE otherwise
+     */
+    public boolean isResident(Passenger passenger){
+        /*
+        If the following things are true, return true:
+        Passenger is on the current floor
+        Passenger has no destinationFloor (and so is not in either waiting queue)
+        Floor has at least one resident Passenger
+         */
+        if(passenger.currentFloor() == floorNumber && passenger.destinationFloor() == Passenger.UNDEFINED_FLOOR && passengersResident.size() > 0){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public void enterGroundFloor(Passenger passenger){
+        passengersResident.add(passenger);
     }
 
     /**
      * Removes a single passenger from the floor. If that was the last passenger, sets the "stop here" flag to false.
+     * @return passenger the Passenger object that is boarding the Elevator
      */
-    public void boardPassenger(){
-        if(numPassengers == 0){
-            //Add a passenger to the floor
-            numPassengers++;
-        }
+    public Passenger boardPassenger(Elevator.Direction direction){
+        switch (direction) {
+            case UP:
+                if(passengersGoingUp.size() == 0){
+                    passengersGoingUp.add(new Passenger(floorNumber));
+                }
 
-        numPassengers--;
+                if(passengersGoingUp.peek().equals(null)){
+                    throw new IllegalStateException("We are trying to board a Passenger going up, but there are no Passengers on this Floor.");
+                }
 
-        if(numPassengers == 0){
-            needsStop = false;
+                return passengersGoingUp.poll();
+            case DOWN:
+                if(passengersGoingDown.size() == 0){
+                    passengersGoingDown.add(new Passenger(floorNumber));
+                }
+
+                if(passengersGoingDown.peek().equals(null)){
+                    throw new IllegalStateException("We are trying to board a Passenger going down, but there are no Passengers on this Floor.");
+                }
+
+                return passengersGoingDown.poll();
+            case NONE:
+                throw new IllegalArgumentException("The Elevator must have a Direction in order to board a Passenger.");
+            default:
+                throw new IllegalArgumentException("The Direction must be either Up or Down.");
         }
     }
 

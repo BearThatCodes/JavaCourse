@@ -4,7 +4,7 @@ package cscie55.hw3;
  * Created by Isaac on 3/14/2015.
  */
 public class Passenger {
-    private static final int UNDEFINED_FLOOR = -1;
+    protected static final int UNDEFINED_FLOOR = -1;
     private int currentFloor;
     private int destinationFloor;
 
@@ -13,7 +13,12 @@ public class Passenger {
      */
     public Passenger() {
         currentFloor = 1;
-        destinationFloor = -1;
+        destinationFloor = UNDEFINED_FLOOR;
+    }
+
+    public Passenger(int currentFloor){
+        this.currentFloor = currentFloor;
+        destinationFloor = UNDEFINED_FLOOR;
     }
 
     /**
