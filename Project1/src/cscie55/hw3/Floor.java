@@ -39,11 +39,13 @@ public class Floor {
     public void waitForElevator(Passenger passenger,int destinationFloor){
         if(destinationFloor > floorNumber){
             passengersGoingUp.add(passenger);
+            passengersResident.remove(passenger);
             passenger.waitForElevator(destinationFloor);
             System.out.println("There are now " + passengersGoingUp.size() + " passengers going up on floor " + floorNumber);
         }
         else if(destinationFloor < floorNumber){
             passengersGoingDown.add(passenger);
+            passengersResident.remove(passenger);
             passenger.waitForElevator(destinationFloor);
             System.out.println("There are now " + passengersGoingDown.size() + " passengers going down on floor " + floorNumber);
         }
@@ -88,6 +90,7 @@ public class Floor {
                     throw new IllegalStateException("We are trying to board a Passenger going up, but there are no Passengers on this Floor.");
                 }
 
+                System.out.println("Returning passenger: " + passengersGoingUp.peek());
                 return passengersGoingUp.poll();
             case DOWN:
                 if(passengersGoingDown.size() == 0){
@@ -98,6 +101,7 @@ public class Floor {
                     throw new IllegalStateException("We are trying to board a Passenger going down, but there are no Passengers on this Floor.");
                 }
 
+                System.out.println("Returning passenger: " + passengersGoingUp.peek());
                 return passengersGoingDown.poll();
             case NONE:
                 throw new IllegalArgumentException("The Elevator must have a Direction in order to board a Passenger.");

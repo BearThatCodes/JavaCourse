@@ -201,7 +201,6 @@ public class HW3ElevatorSimulationTest
         Elevator elevator = building.elevator();
         roundTrip(elevator); // Passengers board after elevator GOES to first floor.
         // Starting on the ground floor won't do it.
-        System.out.println(p[0]);
         checkElevator(elevator, 1, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9]);
         // After a round trip (1 -> 7 -> 1), the first passengers who boarded should be on 4,
         // and the elevator should have the remaining passengers.
@@ -252,6 +251,7 @@ public class HW3ElevatorSimulationTest
     private void checkElevator(Elevator elevator, int floorNumber, Passenger ... expectedPassengers)
     {
         assertEquals(floorNumber, elevator.currentFloor());
+        System.out.println(elevator);
         System.out.println("There are " + elevator.passengers().size() + " on the elevator and we expect " + expectedPassengers.length);
         assertEquals(new HashSet<Passenger>(Arrays.asList(expectedPassengers)),
                 elevator.passengers());

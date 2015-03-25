@@ -48,7 +48,7 @@ public class Elevator {
     }
 
     /**
-     * @return currFloor the floor the Elevator is currently on (0 indexed)
+     * @return currFloor the floor the Elevator is currently on (1 indexed)
      */
     public int currentFloor() {
         return currFloor + 1;
@@ -119,10 +119,13 @@ public class Elevator {
         /*Board any waiting passengers*/
         Floor floorObject = building.floor(currFloor + 1);
 
+        System.out.println("There are " + floorObject.passengersGoingUp.size() + " passengers going up.");
+
         if(goingUp()){
             while(floorObject.passengersGoingUp.size() > 0 && passengers().size() != CAPACITY){
                 try{
                     boardPassenger(1);
+                    System.out.println("Boarding passenger on floor " + currentFloor());
                 }
                 catch (ElevatorFullException e){
                     System.out.println("The Elevator is currently full but will keep trying to board the passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
@@ -134,6 +137,7 @@ public class Elevator {
             while(floorObject.passengersGoingDown.size() > 0 && passengers().size() != CAPACITY){
                 try{
                     boardPassenger(1);
+                    System.out.println("Boarding passenger on floor " + currentFloor());
                 }
                 catch (ElevatorFullException e){
                     System.out.println("The Elevator is currently full but will keep trying to board the passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
@@ -160,6 +164,6 @@ public class Elevator {
     }
 
     public String toString() {
-        return "Floor " + currentFloor() + ": " + passengers() + " passengers";
+        return "Floor " + currentFloor() + ": " + passengers().size() + " passengers";
     }
 }
