@@ -1,6 +1,5 @@
 package cscie55.hw3;
-
-import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * @author Isaac Lebwohl-Steiner
@@ -11,7 +10,7 @@ public class Elevator {
     private Direction direction;
     private int currFloor;
     private int[][] floors;
-    private ArrayList<Passenger> passengers;
+    private HashSet<Passenger> passengers;
     private Building building;
     public enum Direction {UP,DOWN,NONE}
 
@@ -29,6 +28,7 @@ public class Elevator {
         *  Elevator should stop (0 means no, 1 means yes).*/
         floors = new int[Building.FLOORS][2];
         this.building = building;
+        passengers = new HashSet<Passenger>();
     }
 
     /**
@@ -66,7 +66,7 @@ public class Elevator {
      *
      * @return passengers an ArrayList of Passengers that are currently on the Elevator
      */
-    public ArrayList<Passenger> passengers() {
+    public HashSet<Passenger> passengers() {
         return passengers;
     }
 
@@ -119,10 +119,9 @@ public class Elevator {
         /*Board any waiting passengers*/
         Floor floorObject = building.floor(currFloor + 1);
 
-        /*If the current Floor has the "stop here" flag set, then board one passenger for every passenger on that floor.*/
-        if(floorObject.needsStop){
-            while(floorObject.needsStop && passengers().size() != CAPACITY){
-                try {
+        if(goingUp()){
+            while(floorObject.passengersGoingUp.size() > 0 && passengers().size() != CAPACITY){
+                try{
                     boardPassenger(1);
                 }
                 catch (ElevatorFullException e){
@@ -130,6 +129,18 @@ public class Elevator {
                 }
             }
         }
+
+        if(goingDown()){
+            while(floorObject.passengersGoingDown.size() > 0 && passengers().size() != CAPACITY){
+                try{
+                    boardPassenger(1);
+                }
+                catch (ElevatorFullException e){
+                    System.out.println("The Elevator is currently full but will keep trying to board the passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
+                }
+            }
+            }
+
     }
 
     private void disembark(int floor){
@@ -142,20 +153,10 @@ public class Elevator {
      * @param floor the floor for which the passenger is destined
      */
     public void boardPassenger(int floor) throws ElevatorFullException {
-        if (passengers() + 1 > CAPACITY) {
+        if (passengers().size() + 1 > CAPACITY) {
             throw new ElevatorFullException(this);
         }
-        /*Add 1 to the number of passengers destined for the indicated floor*/
-        floors[floor - 1][0]++;
-
-        /*Mark the destination floor as a stop, regardless of whether it already is one*/
-        floors[floor - 1][1] = 1;
-
-        /*Clear the "stop here" flag for the current floor*/
-        floors[currFloor][1] = 0;
-
-        /*Tell the Floor that we are boarding a passenger*/
-        building.floor(currFloor + 1).boardPassenger();
+        passengers.add(building.floor(floor).boardPassenger(direction));
     }
 
     public String toString() {

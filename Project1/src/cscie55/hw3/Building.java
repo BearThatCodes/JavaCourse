@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Building {
     public static final int FLOORS = 7;
     private final Elevator elevator;
-    protected ArrayList<cscie55.hw2.Floor> floors = new ArrayList<cscie55.hw2.Floor>(FLOORS);
+    protected ArrayList<Floor> floors = new ArrayList<Floor>(FLOORS);
 
     /**
      * Creates a new Building with default values.
@@ -19,7 +19,7 @@ public class Building {
     public Building() {
         elevator = new Elevator(this);
         for(int i = 0;i<FLOORS;i++){
-            floors.add(new cscie55.hw2.Floor(this,i));
+            floors.add(new Floor(this,i));
         }
     }
 

@@ -1,7 +1,7 @@
 package cscie55.hw3;
 
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Queue;
 
 /**
  * @author Isaac Lebwohl-Steiner
@@ -11,9 +11,9 @@ public class Floor {
     private int floorNumber;
     private Building building;
     //We use a LinkedList because it implements the Queue interface, providing desired functionality
-    private LinkedList<Passenger> passengersGoingUp;
-    private LinkedList<Passenger> passengersGoingDown;
-    private LinkedList<Passenger> passengersResident;
+    protected LinkedList<Passenger> passengersGoingUp;
+    protected LinkedList<Passenger> passengersGoingDown;
+    private HashSet<Passenger> passengersResident;
 
     /**
      * Creates a new Floor tied to the specified Building and with a given floorNumber.
@@ -30,7 +30,7 @@ public class Floor {
         }
         passengersGoingUp = new LinkedList<Passenger>();
         passengersGoingDown = new LinkedList<Passenger>();
-        passengersResident = new LinkedList<Passenger>();
+        passengersResident = new HashSet<Passenger>();
     }
 
     /**
@@ -39,13 +39,18 @@ public class Floor {
     public void waitForElevator(Passenger passenger,int destinationFloor){
         if(destinationFloor > floorNumber){
             passengersGoingUp.add(passenger);
+            passenger.waitForElevator(destinationFloor);
+            System.out.println("There are now " + passengersGoingUp.size() + " passengers going up on floor " + floorNumber);
         }
         else if(destinationFloor < floorNumber){
             passengersGoingDown.add(passenger);
+            passenger.waitForElevator(destinationFloor);
+            System.out.println("There are now " + passengersGoingDown.size() + " passengers going down on floor " + floorNumber);
         }
         else{
             //If they're waiting to reach this floor, then why not just have them become resident?
             passengersResident.add(passenger);
+            passenger.waitForElevator(Passenger.UNDEFINED_FLOOR);
         }
     }
 
@@ -55,21 +60,15 @@ public class Floor {
      * @return boolean TRUE if the Passenger is resident, FALSE otherwise
      */
     public boolean isResident(Passenger passenger){
-        /*
-        If the following things are true, return true:
-        Passenger is on the current floor
-        Passenger has no destinationFloor (and so is not in either waiting queue)
-        Floor has at least one resident Passenger
-         */
-        if(passenger.currentFloor() == floorNumber && passenger.destinationFloor() == Passenger.UNDEFINED_FLOOR && passengersResident.size() > 0){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return passengersResident.contains(passenger);
     }
 
+    /**
+     * Adds a new Passenger to this floor as a resident
+     * @param passenger the Passenger to be added
+     */
     public void enterGroundFloor(Passenger passenger){
+        System.out.println("There are now " + passengersResident.size() + " passengers resident on floor " + floorNumber);
         passengersResident.add(passenger);
     }
 
@@ -84,6 +83,7 @@ public class Floor {
                     passengersGoingUp.add(new Passenger(floorNumber));
                 }
 
+                //noinspection ObjectEqualsNull
                 if(passengersGoingUp.peek().equals(null)){
                     throw new IllegalStateException("We are trying to board a Passenger going up, but there are no Passengers on this Floor.");
                 }
