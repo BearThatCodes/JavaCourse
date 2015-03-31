@@ -11,8 +11,8 @@ public class Floor {
     private int floorNumber;
     private Building building;
     //We use a LinkedList because it implements the Queue interface, providing desired functionality
-    protected LinkedList<Passenger> passengersGoingUp;
-    protected LinkedList<Passenger> passengersGoingDown;
+    protected HashSet<Passenger> passengersGoingUp;
+    protected HashSet<Passenger> passengersGoingDown;
     private HashSet<Passenger> passengersResident;
 
     /**
@@ -28,8 +28,8 @@ public class Floor {
         catch (IllegalArgumentException e){
             System.out.println(e.getMessage());
         }
-        passengersGoingUp = new LinkedList<Passenger>();
-        passengersGoingDown = new LinkedList<Passenger>();
+        passengersGoingUp = new HashSet<Passenger>();
+        passengersGoingDown = new HashSet<Passenger>();
         passengersResident = new HashSet<Passenger>();
     }
 
@@ -85,24 +85,23 @@ public class Floor {
                     passengersGoingUp.add(new Passenger(floorNumber));
                 }
 
-                //noinspection ObjectEqualsNull
-                if(passengersGoingUp.peek().equals(null)){
-                    throw new IllegalStateException("We are trying to board a Passenger going up, but there are no Passengers on this Floor.");
-                }
+                Passenger upPassenger = passengersGoingUp.iterator().next();
 
-                System.out.println("Returning passenger: " + passengersGoingUp.peek());
-                return passengersGoingUp.poll();
+                passengersGoingUp.iterator().remove();
+
+                System.out.println("Returning passenger: " + upPassenger);
+                return upPassenger;
             case DOWN:
                 if(passengersGoingDown.size() == 0){
                     passengersGoingDown.add(new Passenger(floorNumber));
                 }
 
-                if(passengersGoingDown.peek().equals(null)){
-                    throw new IllegalStateException("We are trying to board a Passenger going down, but there are no Passengers on this Floor.");
-                }
+                Passenger downPassenger = passengersGoingDown.iterator().next();
 
-                System.out.println("Returning passenger: " + passengersGoingUp.peek());
-                return passengersGoingDown.poll();
+                passengersGoingUp.iterator().remove();
+
+                System.out.println("Returning passenger: " + downPassenger);
+                return downPassenger;
             case NONE:
                 throw new IllegalArgumentException("The Elevator must have a Direction in order to board a Passenger.");
             default:

@@ -9,7 +9,6 @@ public class Elevator {
     public static final int CAPACITY = 10;
     private Direction direction;
     private int currFloor;
-    private int[][] floors;
     private HashSet<Passenger> passengers;
     private Building building;
     public enum Direction {UP,DOWN,NONE}
@@ -52,13 +51,6 @@ public class Elevator {
      */
     public int currentFloor() {
         return currFloor + 1;
-    }
-
-    /**
-     * @return floors the array containing floor and passenger information for this Elevator
-     */
-    public int[][] getFloors() {
-        return floors;
     }
 
     /**
@@ -113,8 +105,10 @@ public class Elevator {
             throw new UnsupportedOperationException("Cannot move Elevator without a direction. Direction is currently " + direction + ".");
         }
 
+        System.out.println("Now on floor " + currentFloor());
+
         /*Clear the passengers destined for this floor.*/
-        disembark(currFloor);
+        disembark(currFloor + 1);
 
         /*Board any waiting passengers*/
         Floor floorObject = building.floor(currFloor + 1);
@@ -122,6 +116,7 @@ public class Elevator {
         System.out.println("There are " + floorObject.passengersGoingUp.size() + " passengers going up.");
 
         if(goingUp()){
+            System.out.println("We're going up, so let's board some passengers.");
             while(floorObject.passengersGoingUp.size() > 0 && passengers().size() != CAPACITY){
                 try{
                     boardPassenger(1);
@@ -134,6 +129,7 @@ public class Elevator {
         }
 
         if(goingDown()){
+            System.out.println("We're going down, so let's board some passengers.");
             while(floorObject.passengersGoingDown.size() > 0 && passengers().size() != CAPACITY){
                 try{
                     boardPassenger(1);
@@ -148,7 +144,12 @@ public class Elevator {
     }
 
     private void disembark(int floor){
-        floors[floor][0] = 0;
+        for(Passenger passenger : passengers){
+            if(currFloor == passenger.destinationFloor()){
+                passengers.remove(passenger);
+                building.floor(floor).enterGroundFloor(passenger);
+            }
+        }
     }
 
     /**

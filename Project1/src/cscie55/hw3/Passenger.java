@@ -22,6 +22,7 @@ public class Passenger {
      */
     public Passenger(int currentFloor){
         this.currentFloor = currentFloor + 1;
+        System.out.println("This passenger is now on floor " + this.currentFloor);
         destinationFloor = UNDEFINED_FLOOR;
     }
 
