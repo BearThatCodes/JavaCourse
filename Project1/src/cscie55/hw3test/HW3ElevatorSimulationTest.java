@@ -9,6 +9,28 @@ import static org.junit.Assert.assertTrue;
 
 public class HW3ElevatorSimulationTest
 {
+    @Test
+    public void checkBasics(){
+        Building building = new Building();
+        Elevator elevator = building.elevator();
+
+        Passenger joe = new Passenger(1);
+
+        building.enter(joe);
+
+        assertTrue(building.floor(1).isResident(joe));
+
+        elevator = new Elevator(building);
+
+        building.floor(1).waitForElevator(joe,3);
+
+        roundTrip(elevator);
+
+        assertTrue(elevator.passengers().size() == 0);
+
+        System.out.println(joe);
+    }
+
     // Don't board any passengers. Just check that the elevator moves up and down correctly.
     @Test
     public void elevatorMotion()

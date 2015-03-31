@@ -19,13 +19,6 @@ public class Elevator {
     public Elevator(Building building) {
         direction = Direction.DOWN;
         currFloor = 0;
-        /* Creates an empty array to hold the number of floors in the building
-        *  and two pieces of information for each floor, the number of passengers
-        *  destined for that floor and whether a stop was requested. The first
-        *  element in the subarray is the number of passengers, an integer >= 0.
-        *  The second element is the "stop here" flag, indicating whether the
-        *  Elevator should stop (0 means no, 1 means yes).*/
-        floors = new int[Building.FLOORS][2];
         this.building = building;
         passengers = new HashSet<Passenger>();
     }
@@ -108,7 +101,7 @@ public class Elevator {
         System.out.println("Now on floor " + currentFloor());
 
         /*Clear the passengers destined for this floor.*/
-        disembark(currFloor + 1);
+        disembark(currFloor);
 
         /*Board any waiting passengers*/
         Floor floorObject = building.floor(currFloor + 1);
