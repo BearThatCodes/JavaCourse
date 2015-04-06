@@ -2,6 +2,7 @@ package cscie55.hw3;
 
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 /**
  * @author Isaac Lebwohl-Steiner
@@ -73,6 +74,7 @@ public class Floor {
      */
     public void enterGroundFloor(Passenger passenger){
         System.out.println("There are now " + passengersResident.size() + " passengers resident on floor " + (floorNumber + 1));
+        passenger.setCurrentFloor(floorNumber + 1);
         passengersResident.add(passenger);
     }
 
@@ -81,26 +83,37 @@ public class Floor {
      * @return passenger the Passenger object that is boarding the Elevator
      */
     public Passenger boardPassenger(Elevator.Direction direction){
+        Passenger returnPassenger = null;
         switch (direction) {
             case UP:
-                Passenger upPassenger = passengersGoingUp.iterator().next();
+                if(passengersGoingUp.iterator().hasNext()) {
+                    returnPassenger = passengersGoingUp.iterator().next();
 
-                passengersGoingUp.remove(upPassenger);
+                    passengersGoingUp.remove(returnPassenger);
 
-                System.out.println("Returning passenger: " + upPassenger);
-                return upPassenger;
+                    System.out.println("Returning passenger: " + returnPassenger);
+
+                    returnPassenger.boardElevator();
+                }
+                break;
             case DOWN:
-                Passenger downPassenger = passengersGoingDown.iterator().next();
+                if(passengersGoingDown.iterator().hasNext()){
+                    returnPassenger = passengersGoingDown.iterator().next();
 
-                passengersGoingDown.remove(downPassenger);
+                    passengersGoingDown.remove(returnPassenger);
 
-                System.out.println("Returning passenger: " + downPassenger);
-                return downPassenger;
+                    System.out.println("Returning passenger: " + returnPassenger);
+
+                    returnPassenger.boardElevator();
+                }
+                break;
             case NONE:
                 throw new IllegalArgumentException("The Elevator must have a Direction in order to board a Passenger.");
             default:
                 throw new IllegalArgumentException("The Direction must be either Up or Down.");
         }
+
+        return returnPassenger;
     }
 
     /**

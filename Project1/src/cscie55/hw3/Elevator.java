@@ -174,7 +174,7 @@ public class Elevator {
             passengers.add(building.floor(floor).boardPassenger(Direction.DOWN));
         }
         else {
-            passengers.add(building.floor(floor).boardPassenger(direction));
+            passengers.add(building.floor(currentFloor()).boardPassenger(direction));
         }
     }
 

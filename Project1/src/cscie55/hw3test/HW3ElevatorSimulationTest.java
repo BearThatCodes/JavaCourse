@@ -9,28 +9,6 @@ import static org.junit.Assert.assertTrue;
 
 public class HW3ElevatorSimulationTest
 {
-    @Test
-    public void checkBasics(){
-        Building building = new Building();
-        Elevator elevator = building.elevator();
-
-        Passenger joe = new Passenger(1);
-
-        building.enter(joe);
-
-        assertTrue(building.floor(1).isResident(joe));
-
-        elevator = new Elevator(building);
-
-        building.floor(1).waitForElevator(joe,3);
-
-        roundTrip(elevator);
-
-        assertTrue(elevator.passengers().size() == 0);
-
-        System.out.println(joe);
-    }
-
     // Don't board any passengers. Just check that the elevator moves up and down correctly.
     @Test
     public void elevatorMotion()
@@ -223,6 +201,21 @@ public class HW3ElevatorSimulationTest
         Elevator elevator = building.elevator();
         roundTrip(elevator); // Passengers board after elevator GOES to first floor.
         // Starting on the ground floor won't do it.
+        System.out.println("Passenger 0: " + p[0]);
+        System.out.println("Passenger 1: " + p[1]);
+        System.out.println("Passenger 2: " + p[2]);
+        System.out.println("Passenger 3: " + p[3]);
+        System.out.println("Passenger 4: " + p[4]);
+        System.out.println("Passenger 5: " + p[5]);
+        System.out.println("Passenger 6: " + p[6]);
+        System.out.println("Passenger 7: " + p[7]);
+        System.out.println("Passenger 8: " + p[8]);
+        System.out.println("Passenger 9: " + p[9]);
+        System.out.println("Passenger 10: " + p[10]);
+        System.out.println("Passenger 11: " + p[11]);
+        System.out.println("Passenger 12: " + p[12]);
+        System.out.println("Passenger 13: " + p[13]);
+        System.out.println("Passenger 14: " + p[14]);
         checkElevator(elevator, 1, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9]);
         // After a round trip (1 -> 7 -> 1), the first passengers who boarded should be on 4,
         // and the elevator should have the remaining passengers.

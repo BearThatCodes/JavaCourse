@@ -35,6 +35,14 @@ public class Passenger {
     }
 
     /**
+     * Sets the Passenger's current floor to the specified integer value.
+     * @param floorNumber the integer value of the new floor number
+     */
+    public void setCurrentFloor(int floorNumber){
+        currentFloor = floorNumber;
+    }
+
+    /**
      * Returns the Passenger's current floor number, or -1 if they have no destination.
      * @return destinationFloor the Passenger's destination floor
      */
@@ -61,7 +69,7 @@ public class Passenger {
      * Sets the current floor to the Passenger's destination floor and clears the destination floor.
      */
     public void arrive(){
-        destinationFloor = currentFloor;
+        currentFloor = destinationFloor;
         destinationFloor = UNDEFINED_FLOOR;
     }
 
