@@ -1,5 +1,6 @@
 package cscie55.hw3;
 import java.util.HashSet;
+import java.util.Iterator;
 
 /**
  * @author Isaac Lebwohl-Steiner
@@ -106,12 +107,15 @@ public class Elevator {
         /*Board any waiting passengers*/
         Floor floorObject = building.floor(currFloor + 1);
 
-        System.out.println("There are " + floorObject.passengersGoingUp.size() + " passengers going up.");
+        System.out.println("We just grabbed floor " + floorObject + " which has " + floorObject.passengersGoingUp.size() + " passengers going up and " + floorObject.passengersGoingDown.size() + " passengers going down.");
 
-        if(goingUp()){
+        System.out.println("There are " + passengers().size() + " passengers on the Elevator.");
+
+        if(goingUp() || currentFloor() == 1){
             System.out.println("We're going up, so let's board some passengers.");
             while(floorObject.passengersGoingUp.size() > 0 && passengers().size() != CAPACITY){
                 try{
+                    System.out.println("We're currently going " + direction + " and should be going up.");
                     boardPassenger(1);
                     System.out.println("Boarding passenger on floor " + currentFloor());
                 }
@@ -121,7 +125,7 @@ public class Elevator {
             }
         }
 
-        if(goingDown()){
+        if(goingDown() || currentFloor() == building.floors.size()){
             System.out.println("We're going down, so let's board some passengers.");
             while(floorObject.passengersGoingDown.size() > 0 && passengers().size() != CAPACITY){
                 try{
@@ -137,11 +141,20 @@ public class Elevator {
     }
 
     private void disembark(int floor){
-        for(Passenger passenger : passengers){
-            if(currFloor == passenger.destinationFloor()){
-                passengers.remove(passenger);
-                building.floor(floor).enterGroundFloor(passenger);
+        Iterator<Passenger> iterator = passengers.iterator();
+        HashSet<Passenger> passengersToRemove = new HashSet<Passenger>();
+        while(iterator.hasNext()){
+            System.out.println("We're trying to disembark on floor " + floor);
+            Passenger currPassenger = iterator.next();
+            if((floor + 1) == currPassenger.destinationFloor()){
+                System.out.println("A passenger is disembarking on floor " + floor);
+                building.floor(floor + 1).enterGroundFloor(currPassenger);
+                passengersToRemove.add(currPassenger);
             }
+        }
+
+        for(Passenger removePass : passengersToRemove){
+            passengers.remove(removePass);
         }
     }
 
@@ -154,7 +167,15 @@ public class Elevator {
         if (passengers().size() + 1 > CAPACITY) {
             throw new ElevatorFullException(this);
         }
-        passengers.add(building.floor(floor).boardPassenger(direction));
+        if (currentFloor() == 1) {
+            passengers.add(building.floor(floor).boardPassenger(Direction.UP));
+        }
+        else if (currentFloor() == Building.getNumFloors()) {
+            passengers.add(building.floor(floor).boardPassenger(Direction.DOWN));
+        }
+        else {
+            passengers.add(building.floor(floor).boardPassenger(direction));
+        }
     }
 
     public String toString() {

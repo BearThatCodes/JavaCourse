@@ -37,23 +37,25 @@ public class Floor {
      * Increase the number of passengers waiting on this floor by 1 and mark this floor as requiring a stop.
      */
     public void waitForElevator(Passenger passenger,int destinationFloor){
-        if(destinationFloor > floorNumber){
+        if(destinationFloor > floorNumber + 1){
             passengersGoingUp.add(passenger);
             passengersResident.remove(passenger);
             passenger.waitForElevator(destinationFloor);
-            System.out.println("There are now " + passengersGoingUp.size() + " passengers going up on floor " + floorNumber);
+            System.out.println("There are now " + passengersGoingUp.size() + " passengers going up on floor " + (floorNumber + 1));
         }
-        else if(destinationFloor < floorNumber){
+        else if(destinationFloor < floorNumber + 1){
             passengersGoingDown.add(passenger);
             passengersResident.remove(passenger);
             passenger.waitForElevator(destinationFloor);
-            System.out.println("There are now " + passengersGoingDown.size() + " passengers going down on floor " + floorNumber);
+            System.out.println("There are now " + passengersGoingDown.size() + " passengers going down on floor " + (floorNumber + 1));
         }
         else{
             //If they're waiting to reach this floor, then why not just have them become resident?
             passengersResident.add(passenger);
             passenger.waitForElevator(Passenger.UNDEFINED_FLOOR);
         }
+
+        System.out.println(passenger);
     }
 
     /**
@@ -70,7 +72,7 @@ public class Floor {
      * @param passenger the Passenger to be added
      */
     public void enterGroundFloor(Passenger passenger){
-        System.out.println("There are now " + passengersResident.size() + " passengers resident on floor " + floorNumber);
+        System.out.println("There are now " + passengersResident.size() + " passengers resident on floor " + (floorNumber + 1));
         passengersResident.add(passenger);
     }
 
@@ -81,24 +83,16 @@ public class Floor {
     public Passenger boardPassenger(Elevator.Direction direction){
         switch (direction) {
             case UP:
-                if(passengersGoingUp.size() == 0){
-                    passengersGoingUp.add(new Passenger(floorNumber));
-                }
-
                 Passenger upPassenger = passengersGoingUp.iterator().next();
 
-                passengersGoingUp.iterator().remove();
+                passengersGoingUp.remove(upPassenger);
 
                 System.out.println("Returning passenger: " + upPassenger);
                 return upPassenger;
             case DOWN:
-                if(passengersGoingDown.size() == 0){
-                    passengersGoingDown.add(new Passenger(floorNumber));
-                }
-
                 Passenger downPassenger = passengersGoingDown.iterator().next();
 
-                passengersGoingUp.iterator().remove();
+                passengersGoingDown.remove(downPassenger);
 
                 System.out.println("Returning passenger: " + downPassenger);
                 return downPassenger;
@@ -124,5 +118,9 @@ public class Floor {
             }
         }
         this.floorNumber = floorNumber;
+    }
+
+    public String toString(){
+        return Integer.toString(floorNumber + 1);
     }
 }
