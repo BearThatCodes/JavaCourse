@@ -8,7 +8,7 @@ import java.util.ArrayList;
  */
 public class Building {
     public static final int FLOORS = 7;
-    private final Elevator elevator;
+    private Elevator elevator;
     protected ArrayList<Floor> floors = new ArrayList<Floor>(FLOORS);
 
     /**

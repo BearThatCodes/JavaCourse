@@ -62,8 +62,8 @@ public class HW3ElevatorSimulationTest
         assertTrue(groundFloor.isResident(p5));
         assertTrue(groundFloor.isResident(p6));
         Elevator elevator = building.elevator();
-        // Everyone wants to go up, to various floors.
-        groundFloor.waitForElevator(p1, 3);
+        // Everyone wants to go up, to various floors.groundFloor.waitForElevator(p1, 3);
+
         groundFloor.waitForElevator(p2, 4);
         groundFloor.waitForElevator(p3, 4);
         groundFloor.waitForElevator(p4, 6);
@@ -201,21 +201,6 @@ public class HW3ElevatorSimulationTest
         Elevator elevator = building.elevator();
         roundTrip(elevator); // Passengers board after elevator GOES to first floor.
         // Starting on the ground floor won't do it.
-        System.out.println("Passenger 0: " + p[0]);
-        System.out.println("Passenger 1: " + p[1]);
-        System.out.println("Passenger 2: " + p[2]);
-        System.out.println("Passenger 3: " + p[3]);
-        System.out.println("Passenger 4: " + p[4]);
-        System.out.println("Passenger 5: " + p[5]);
-        System.out.println("Passenger 6: " + p[6]);
-        System.out.println("Passenger 7: " + p[7]);
-        System.out.println("Passenger 8: " + p[8]);
-        System.out.println("Passenger 9: " + p[9]);
-        System.out.println("Passenger 10: " + p[10]);
-        System.out.println("Passenger 11: " + p[11]);
-        System.out.println("Passenger 12: " + p[12]);
-        System.out.println("Passenger 13: " + p[13]);
-        System.out.println("Passenger 14: " + p[14]);
         checkElevator(elevator, 1, p[0], p[1], p[2], p[3], p[4], p[5], p[6], p[7], p[8], p[9]);
         // After a round trip (1 -> 7 -> 1), the first passengers who boarded should be on 4,
         // and the elevator should have the remaining passengers.
@@ -266,8 +251,6 @@ public class HW3ElevatorSimulationTest
     private void checkElevator(Elevator elevator, int floorNumber, Passenger ... expectedPassengers)
     {
         assertEquals(floorNumber, elevator.currentFloor());
-        System.out.println(elevator);
-        System.out.println("There are " + elevator.passengers().size() + " on the elevator and we expect " + expectedPassengers.length);
         assertEquals(new HashSet<Passenger>(Arrays.asList(expectedPassengers)),
                 elevator.passengers());
     }

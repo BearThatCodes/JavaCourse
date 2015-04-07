@@ -99,25 +99,16 @@ public class Elevator {
             throw new UnsupportedOperationException("Cannot move Elevator without a direction. Direction is currently " + direction + ".");
         }
 
-        System.out.println("Now on floor " + currentFloor());
-
         /*Clear the passengers destined for this floor.*/
         disembark(currFloor);
 
         /*Board any waiting passengers*/
         Floor floorObject = building.floor(currFloor + 1);
 
-        System.out.println("We just grabbed floor " + floorObject + " which has " + floorObject.passengersGoingUp.size() + " passengers going up and " + floorObject.passengersGoingDown.size() + " passengers going down.");
-
-        System.out.println("There are " + passengers().size() + " passengers on the Elevator.");
-
         if(goingUp() || currentFloor() == 1){
-            System.out.println("We're going up, so let's board some passengers.");
             while(floorObject.passengersGoingUp.size() > 0 && passengers().size() != CAPACITY){
                 try{
-                    System.out.println("We're currently going " + direction + " and should be going up.");
                     boardPassenger(1);
-                    System.out.println("Boarding passenger on floor " + currentFloor());
                 }
                 catch (ElevatorFullException e){
                     System.out.println("The Elevator is currently full but will keep trying to board the passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
@@ -126,11 +117,9 @@ public class Elevator {
         }
 
         if(goingDown() || currentFloor() == building.floors.size()){
-            System.out.println("We're going down, so let's board some passengers.");
             while(floorObject.passengersGoingDown.size() > 0 && passengers().size() != CAPACITY){
                 try{
                     boardPassenger(1);
-                    System.out.println("Boarding passenger on floor " + currentFloor());
                 }
                 catch (ElevatorFullException e){
                     System.out.println("The Elevator is currently full but will keep trying to board the passengers that are waiting on floor " + currFloor + " each time it arrives on this floor.");
@@ -140,16 +129,19 @@ public class Elevator {
 
     }
 
+    /**
+     * Removes all Passengers for whom the specified floor is their destination floor
+     * @param floor the destination floor for which Passengers should be removed
+     */
     private void disembark(int floor){
         Iterator<Passenger> iterator = passengers.iterator();
         HashSet<Passenger> passengersToRemove = new HashSet<Passenger>();
         while(iterator.hasNext()){
-            System.out.println("We're trying to disembark on floor " + floor);
             Passenger currPassenger = iterator.next();
             if((floor + 1) == currPassenger.destinationFloor()){
-                System.out.println("A passenger is disembarking on floor " + floor);
                 building.floor(floor + 1).enterGroundFloor(currPassenger);
                 passengersToRemove.add(currPassenger);
+                currPassenger.arrive();
             }
         }
 

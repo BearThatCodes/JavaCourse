@@ -9,20 +9,11 @@ public class Passenger {
     private int destinationFloor;
 
     /**
-     * Creates a new Passenger on Floor 1 and without a destination Floor.
-     */
-    public Passenger() {
-        currentFloor = 1;
-        destinationFloor = UNDEFINED_FLOOR;
-    }
-
-    /**
      * Creates a new Passenger that is currently on the specified floor
      * @param currentFloor an integer representing the Passenger's current floor number (0 indexed)
      */
     public Passenger(int currentFloor){
         this.currentFloor = currentFloor + 1;
-        System.out.println("This passenger is now on floor " + this.currentFloor);
         destinationFloor = UNDEFINED_FLOOR;
     }
 

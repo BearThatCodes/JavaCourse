@@ -1,8 +1,6 @@
 package cscie55.hw3;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.NoSuchElementException;
+import java.util.LinkedHashSet;
 
 /**
  * @author Isaac Lebwohl-Steiner
@@ -12,9 +10,9 @@ public class Floor {
     private int floorNumber;
     private Building building;
     //We use a LinkedList because it implements the Queue interface, providing desired functionality
-    protected HashSet<Passenger> passengersGoingUp;
-    protected HashSet<Passenger> passengersGoingDown;
-    private HashSet<Passenger> passengersResident;
+    protected LinkedHashSet<Passenger> passengersGoingUp;
+    protected LinkedHashSet<Passenger> passengersGoingDown;
+    private LinkedHashSet<Passenger> passengersResident;
 
     /**
      * Creates a new Floor tied to the specified Building and with a given floorNumber.
@@ -23,15 +21,10 @@ public class Floor {
      */
     public Floor(Building building,int floorNumber){
         this.building = building;
-        try{
-            assignFloorNumber(floorNumber);
-        }
-        catch (IllegalArgumentException e){
-            System.out.println(e.getMessage());
-        }
-        passengersGoingUp = new HashSet<Passenger>();
-        passengersGoingDown = new HashSet<Passenger>();
-        passengersResident = new HashSet<Passenger>();
+        assignFloorNumber(floorNumber);
+        passengersGoingUp = new LinkedHashSet<Passenger>();
+        passengersGoingDown = new LinkedHashSet<Passenger>();
+        passengersResident = new LinkedHashSet<Passenger>();
     }
 
     /**
@@ -42,21 +35,17 @@ public class Floor {
             passengersGoingUp.add(passenger);
             passengersResident.remove(passenger);
             passenger.waitForElevator(destinationFloor);
-            System.out.println("There are now " + passengersGoingUp.size() + " passengers going up on floor " + (floorNumber + 1));
         }
         else if(destinationFloor < floorNumber + 1){
             passengersGoingDown.add(passenger);
             passengersResident.remove(passenger);
             passenger.waitForElevator(destinationFloor);
-            System.out.println("There are now " + passengersGoingDown.size() + " passengers going down on floor " + (floorNumber + 1));
         }
         else{
             //If they're waiting to reach this floor, then why not just have them become resident?
             passengersResident.add(passenger);
             passenger.waitForElevator(Passenger.UNDEFINED_FLOOR);
         }
-
-        System.out.println(passenger);
     }
 
     /**
@@ -73,7 +62,6 @@ public class Floor {
      * @param passenger the Passenger to be added
      */
     public void enterGroundFloor(Passenger passenger){
-        System.out.println("There are now " + passengersResident.size() + " passengers resident on floor " + (floorNumber + 1));
         passenger.setCurrentFloor(floorNumber + 1);
         passengersResident.add(passenger);
     }
@@ -91,8 +79,6 @@ public class Floor {
 
                     passengersGoingUp.remove(returnPassenger);
 
-                    System.out.println("Returning passenger: " + returnPassenger);
-
                     returnPassenger.boardElevator();
                 }
                 break;
@@ -101,8 +87,6 @@ public class Floor {
                     returnPassenger = passengersGoingDown.iterator().next();
 
                     passengersGoingDown.remove(returnPassenger);
-
-                    System.out.println("Returning passenger: " + returnPassenger);
 
                     returnPassenger.boardElevator();
                 }
