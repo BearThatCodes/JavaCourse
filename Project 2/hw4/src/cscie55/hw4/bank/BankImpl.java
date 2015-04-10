@@ -1,10 +1,9 @@
 package cscie55.hw4.bank;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
 /**
- * Created by Isaac on 4/6/2015.
+ * Implementation of the Bank class.
  */
 public class BankImpl implements Bank{
     HashMap<Integer,Account> accounts;
@@ -32,7 +31,7 @@ public class BankImpl implements Bank{
     }
 
     /**
-     * Withdraws the specified amount from the specified Account and deposits it to the specified Account
+     * Withdraws the specified amount from the specified Account and deposits it to the specified Account (no synchronization)
      * @param fromId the integer value of the Account ID from which to withdraw()
      * @param toId the integer value of the Account ID to which to deposit()
      * @param amount the long amount to withdraw() from one Account and deposit() to the other
@@ -44,6 +43,13 @@ public class BankImpl implements Bank{
         accounts.get(toId).deposit(amount);
     }
 
+    /**
+     * Withdraws the specified amount from the specified Account and deposits it to the specified Account (synchronized on Bank)
+     * @param fromId the integer value of the Account ID from which to withdraw()
+     * @param toId the integer value of the Account ID to which to deposit()
+     * @param amount the long amount to withdraw() from one Account and deposit() to the other
+     * @throws InsufficientFundsException
+     */
     @Override
     public void transferLockingBank(int fromId, int toId, long amount) throws InsufficientFundsException {
         synchronized (this){
@@ -52,6 +58,13 @@ public class BankImpl implements Bank{
         }
     }
 
+    /**
+     * Withdraws the specified amount from the specified Account and deposits it to the specified Account (synchronized on individual Accounts)
+     * @param fromId the integer value of the Account ID from which to withdraw()
+     * @param toId the integer value of the Account ID to which to deposit()
+     * @param amount the long amount to withdraw() from one Account and deposit() to the other
+     * @throws InsufficientFundsException
+     */
     @Override
     public void transferLockingAccounts(int fromId, int toId, long amount) throws InsufficientFundsException {
         synchronized (accounts.get(fromId)){

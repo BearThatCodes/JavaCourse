@@ -7,11 +7,10 @@ import cscie55.hw4.bank.BankImpl;
 import cscie55.hw4.bank.DuplicateAccountException;
 import cscie55.hw4.bank.InsufficientFundsException;
 import org.junit.Test;
+import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 import java.util.Random;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 /*
  * Unit tests for Banks and Accounts. All of the tests except for testPerformance test basic operations on
@@ -180,10 +179,10 @@ public class Tester
                 double transactionsPerMsec = (1000000.0 * TRANSACTIONS) / nSec;
                 if (bank.totalBalances() == ACCOUNTS * INITIAL_BALANCE) {
                     System.out.format("%s, %s -- OK: %f transactions/msec\n",
-                                      lockStrategy, nThreads, transactionsPerMsec);
+                            lockStrategy, nThreads, transactionsPerMsec);
                 } else {
                     System.out.format("%s, %s -- BROKEN: %f transactions/msec\tExpected total balances: %d\tActual: %d\n",
-                                      lockStrategy, nThreads, transactionsPerMsec, ACCOUNTS * INITIAL_BALANCE, bank.totalBalances());
+                            lockStrategy, nThreads, transactionsPerMsec, ACCOUNTS * INITIAL_BALANCE, bank.totalBalances());
                 }
             }
         }

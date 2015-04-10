@@ -1,15 +1,17 @@
 /**
- * Created by Isaac on 4/6/2015.
+ * Implementation of Account class.
  */
 package cscie55.hw4.bank;
+
+import java.security.InvalidParameterException;
 
 public class AccountImpl implements Account{
     private int id;
     private long balance;
 
-    public AccountImpl(int id, long balance) {
+    public AccountImpl(int id){
         this.id = id;
-        this.balance = balance;
+        balance = 0;
     }
 
     /**
@@ -36,7 +38,12 @@ public class AccountImpl implements Account{
      */
     @Override
     public void deposit(long amount) {
-        balance += amount;
+        if(amount <= 0){
+            throw new InvalidParameterException("Must deposit a value greater than 0.");
+        }
+        else {
+            balance += amount;
+        }
     }
 
     /**
@@ -48,6 +55,12 @@ public class AccountImpl implements Account{
     public synchronized void withdraw(long amount) throws InsufficientFundsException {
         if(amount > balance){
             throw new InsufficientFundsException(this,amount);
+        }
+        else if(amount <= 0){
+            throw new InvalidParameterException("Must withdraw a value greater than 0.");
+        }
+        else{
+            balance -= amount;
         }
     }
 }
