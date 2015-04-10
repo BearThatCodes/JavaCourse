@@ -45,7 +45,7 @@ public class AccountImpl implements Account{
      * @throws InsufficientFundsException
      */
     @Override
-    public void withdraw(long amount) throws InsufficientFundsException {
+    public synchronized void withdraw(long amount) throws InsufficientFundsException {
         if(amount > balance){
             throw new InsufficientFundsException(this,amount);
         }
