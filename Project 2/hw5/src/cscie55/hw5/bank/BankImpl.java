@@ -22,13 +22,11 @@ public class BankImpl implements Bank{
      */
     @Override
     public void addAccount(Account account) throws DuplicateAccountException {
-        synchronized (account) {
-            if (accounts.containsValue(account)) {
-                throw new DuplicateAccountException(account.id());
-            }
-            else {
-                accounts.put(account.id(), account);
-            }
+        if (accounts.containsValue(account)) {
+            throw new DuplicateAccountException(account.id());
+        }
+        else {
+            accounts.put(account.id(), account);
         }
     }
 

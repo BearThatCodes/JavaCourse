@@ -29,40 +29,40 @@ public class CommandExecutionThread extends Thread {
          */
         Command commandToRun = null;
 
-        synchronized (commandQueue) {
-            while (!commandQueue.peek().isStop()) {
-                while (commandQueue.size() <= 0){
-                    try {
-                        this.wait();
-                    } catch (InterruptedException e) {
-                        System.out.println("Thread was interrupted.");
+        if(commandQueue.size() > 0) {
+            synchronized (commandQueue) {
+                while (!commandQueue.peek().isStop()) {
+                    while (commandQueue.size() <= 0) {
+                        try {
+                            this.wait();
+                        } catch (InterruptedException e) {
+                            System.out.println("Thread was interrupted.");
+                        }
+                    }
+
+                    commandToRun = commandQueue.remove();
+
+                    if (executeCommandInsideMonitor) {
+                        try {
+                            commandToRun.execute(bank);
+                        } catch (InsufficientFundsException e) {
+                            System.out.println(e);
+                        }
                     }
                 }
 
-                commandToRun = commandQueue.remove();
-
-                if(executeCommandInsideMonitor) {
-                    try {
-                        commandToRun.execute(bank);
-                    }
-                    catch (InsufficientFundsException e){
-                        System.out.println(e);
-                    }
+                if (commandQueue.peek().isStop()) {
+                    commandQueue.remove();
+                    return;
                 }
             }
 
-            if(commandQueue.peek().isStop()){
-                commandQueue.remove();
-                return;
-            }
-        }
-
-        if(!executeCommandInsideMonitor && commandToRun != null){
-            try {
-                commandToRun.execute(bank);
-            }
-            catch (InsufficientFundsException e){
-                System.out.println(e);
+            if (!executeCommandInsideMonitor && commandToRun != null) {
+                try {
+                    commandToRun.execute(bank);
+                } catch (InsufficientFundsException e) {
+                    System.out.println(e);
+                }
             }
         }
     }

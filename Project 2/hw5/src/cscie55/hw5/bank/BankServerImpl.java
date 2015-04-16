@@ -3,6 +3,7 @@ package cscie55.hw5.bank;
 import cscie55.hw5.bank.command.Command;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
@@ -17,6 +18,8 @@ public class BankServerImpl implements BankServer{
     public BankServerImpl(Bank bank,int numThreads,boolean executeCommandInsideMonitor) {
         this.bank = bank;
         this.executeCommandInsideMonitor = executeCommandInsideMonitor;
+        commandQueue = new LinkedList<Command>();
+        commandExecutionThreads = new ArrayList<CommandExecutionThread>();
 
         for(int i=0;i<numThreads;i++){
             CommandExecutionThread threadToAdd = new CommandExecutionThread(bank,commandQueue,executeCommandInsideMonitor);
@@ -34,6 +37,7 @@ public class BankServerImpl implements BankServer{
     public void execute(Command command) {
         synchronized (commandQueue){
             commandQueue.add(command);
+            commandQueue.notifyAll();
         }
     }
 
@@ -49,6 +53,9 @@ public class BankServerImpl implements BankServer{
                 synchronized (commandQueue) {
                     commandQueue.add(Command.stop());
                 }
+            }
+            for(CommandExecutionThread threadToJoin : commandExecutionThreads){
+                threadToJoin.join();
             }
         }
     }
