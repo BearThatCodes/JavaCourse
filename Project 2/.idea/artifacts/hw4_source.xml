@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="hw4_source">
+    <output-path>D:/Desktop/hw4</output-path>
+    <root id="archive" name="hw4_source.jar">
+      <element id="dir-copy" path="$PROJECT_DIR$/hw4" />
+    </root>
+  </artifact>
+</component>

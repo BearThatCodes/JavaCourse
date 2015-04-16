@@ -21,40 +21,14 @@ public class BankImpl implements Bank{
      * @throws DuplicateAccountException
      */
     @Override
-    public synchronized void addAccount(Account account) throws DuplicateAccountException {
-        if(accounts.containsValue(account)){
-            throw new DuplicateAccountException(account.id());
-        }
-        else{
-            accounts.put(account.id(),account);
-        }
-    }
-
-    /**
-     * Withdraws the specified amount from the specified Account and deposits it to the specified Account (no synchronization)
-     * @param fromId the integer value of the Account ID from which to withdraw()
-     * @param toId the integer value of the Account ID to which to deposit()
-     * @param amount the long amount to withdraw() from one Account and deposit() to the other
-     * @throws InsufficientFundsException
-     */
-    @Override
-    public void transferWithoutLocking(int fromId, int toId, long amount) throws InsufficientFundsException {
-        accounts.get(fromId).withdraw(amount);
-        accounts.get(toId).deposit(amount);
-    }
-
-    /**
-     * Withdraws the specified amount from the specified Account and deposits it to the specified Account (synchronized on Bank)
-     * @param fromId the integer value of the Account ID from which to withdraw()
-     * @param toId the integer value of the Account ID to which to deposit()
-     * @param amount the long amount to withdraw() from one Account and deposit() to the other
-     * @throws InsufficientFundsException
-     */
-    @Override
-    public void transferLockingBank(int fromId, int toId, long amount) throws InsufficientFundsException {
-        synchronized (this){
-            accounts.get(fromId).withdraw(amount);
-            accounts.get(toId).deposit(amount);
+    public void addAccount(Account account) throws DuplicateAccountException {
+        synchronized (account) {
+            if (accounts.containsValue(account)) {
+                throw new DuplicateAccountException(account.id());
+            }
+            else {
+                accounts.put(account.id(), account);
+            }
         }
     }
 
@@ -66,13 +40,31 @@ public class BankImpl implements Bank{
      * @throws InsufficientFundsException
      */
     @Override
-    public void transferLockingAccounts(int fromId, int toId, long amount) throws InsufficientFundsException {
+    public void transfer(int fromId, int toId, long amount) throws InsufficientFundsException {
         synchronized (accounts.get(fromId)){
             accounts.get(fromId).withdraw(amount);
         }
 
         synchronized (accounts.get(toId)){
             accounts.get(toId).deposit(amount);
+        }
+    }
+
+    /**
+     * Deposit the given amount to the Account identified by accountId.
+     *
+     * @param accountId Identifies the Account to which funds will be deposited.
+     * @param amount    The amount to be deposited.
+     */
+    @Override
+    public void deposit(int accountId, long amount) {
+        if(!accounts.containsKey(accountId)){
+            throw new IllegalArgumentException("Account " + accountId + " does not exist in this Bank.");
+        }
+        else{
+            synchronized (accounts.get(accountId)){
+                accounts.get(accountId).deposit(amount);
+            }
         }
     }
 
@@ -93,7 +85,7 @@ public class BankImpl implements Bank{
      * Returns the number of Accounts in this Bank.
      * @return count the integer number of Accounts in this Bank
      */
-    @Override
+//    TODO See if I actually need this method.
     public int numberOfAccounts() {
         return accounts.size();
     }
