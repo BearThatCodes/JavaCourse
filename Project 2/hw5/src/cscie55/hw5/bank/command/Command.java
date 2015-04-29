@@ -24,7 +24,7 @@ public abstract class Command
     /**
      * Returns a Transfer Command.
      * @param fromAccountId The identifier of the Account from which funds will be withdrawn.
-     * @param toAccountId The identifer of the Account to which funds will be deposited.
+     * @param toAccountId The identifier of the Account to which funds will be deposited.
      * @param amount The amount to be transferred.
      * @return a Transfer Command.
      */

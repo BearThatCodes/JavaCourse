@@ -13,9 +13,9 @@ public interface Bank
     /**
      * Transfer the given amount from one account to another.
      * @param fromAccountId The identifier of the Account from which funds will be withdrawn.
-     * @param toAccountId The identifer of the Account to which funds will be deposited.
+     * @param toAccountId The identifier of the Account to which funds will be deposited.
      * @param amount The amount to be transferred.
-     * @throws InsufficientFundsException The account identifed by fromAccountId has a balance less than amount.
+     * @throws InsufficientFundsException The account identified by fromAccountId has a balance less than amount.
      */
     void transfer(int fromAccountId, int toAccountId, long amount) throws InsufficientFundsException;
 

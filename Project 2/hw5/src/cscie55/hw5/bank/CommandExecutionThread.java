@@ -27,10 +27,8 @@ public class CommandExecutionThread extends Thread {
 
         while (true) {
             synchronized (commandQueue) {
-                System.out.println("Running thread " + getId());
                 while (commandQueue.size() == 0) {
                     try {
-                        System.out.println("No commands for thread " + getId() + " so we'll wait");
                         commandQueue.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -38,32 +36,25 @@ public class CommandExecutionThread extends Thread {
                 }
 
                 commandToRun = commandQueue.remove();
-                //System.out.println("Getting command " + commandToRun + " for thread " + getId());
-                //System.out.println("Thread is " + this.getState() + " and command is " + commandQueue.peek());
 
                 if (!commandToRun.isStop() && executeCommandInsideMonitor) {
-                    System.out.println("Executing " + commandToRun.getClass() + " command inside sync for thread " + getId());
                     try {
                         commandToRun.execute(bank);
                     } catch (InsufficientFundsException e) {
-                        //System.out.println(e);
+                        System.out.println(e);
                     }
                 }
 
                 if (commandToRun.isStop()) {
-                    System.out.println("Command is stop, try to return for thread " + getId());
                     return;
                 }
             }
 
-            //System.out.println("We got there");
-
-            if (!executeCommandInsideMonitor) {
-                System.out.println("Executing " + commandToRun.getClass() + " command outside sync for thread " + getId());
+            if (!executeCommandInsideMonitor && !commandToRun.isStop()) {
                 try {
                     commandToRun.execute(bank);
                 } catch (InsufficientFundsException e) {
-                    //System.out.println(e);
+                    System.out.println(e);
                 }
             }
         }

@@ -6,7 +6,7 @@ package cscie55.hw5.bank;
 import java.security.InvalidParameterException;
 
 public class AccountImpl implements Account{
-    private int id;
+    private final int id;
     private long balance;
 
     public AccountImpl(int id){

@@ -21,6 +21,7 @@ public class BankServerImpl implements BankServer{
         commandQueue = new LinkedList<Command>();
         commandExecutionThreads = new ArrayList<CommandExecutionThread>();
 
+        //Add threads to thread array, then start them
         for(int i=0;i<numThreads;i++){
             CommandExecutionThread threadToAdd = new CommandExecutionThread(bank,commandQueue,executeCommandInsideMonitor);
             commandExecutionThreads.add(threadToAdd);

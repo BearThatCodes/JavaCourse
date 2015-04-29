@@ -1,12 +1,13 @@
 package cscie55.hw5.bank;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Implementation of the Bank class.
  */
 public class BankImpl implements Bank{
-    HashMap<Integer,Account> accounts;
+    private Map<Integer,Account> accounts;
 
     /**
      * Creates a new Bank with default parameters
@@ -35,17 +36,22 @@ public class BankImpl implements Bank{
      * @param fromId the integer value of the Account ID from which to withdraw()
      * @param toId the integer value of the Account ID to which to deposit()
      * @param amount the long amount to withdraw() from one Account and deposit() to the other
-     * @throws InsufficientFundsException
      */
     @Override
-    public void transfer(int fromId, int toId, long amount) throws InsufficientFundsException {
+    public void transfer(int fromId, int toId, long amount) {
         synchronized (accounts.get(fromId)){
-            accounts.get(fromId).withdraw(amount);
+            synchronized (accounts.get(toId)){
+                try {
+                    accounts.get(fromId).withdraw(amount);
+                    accounts.get(toId).deposit(amount);
+                } catch (InsufficientFundsException e) {
+                    //Swallow the error and do nothing
+                }
+
+            }
         }
 
-        synchronized (accounts.get(toId)){
-            accounts.get(toId).deposit(amount);
-        }
+
     }
 
     /**
@@ -61,7 +67,6 @@ public class BankImpl implements Bank{
         }
         else{
             synchronized (accounts.get(accountId)){
-                System.out.println("Depositing " + amount + " into account " + accountId);
                 accounts.get(accountId).deposit(amount);
             }
         }
