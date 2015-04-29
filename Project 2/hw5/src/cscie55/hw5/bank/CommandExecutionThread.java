@@ -12,7 +12,7 @@ public class CommandExecutionThread extends Thread {
     private Queue<Command> commandQueue;
     private boolean executeCommandInsideMonitor;
 
-    public CommandExecutionThread(Bank bank,Queue<Command> commandQueue,boolean executeCommandInsideMonitor){
+    public CommandExecutionThread(Bank bank, Queue<Command> commandQueue, boolean executeCommandInsideMonitor) {
         this.bank = bank;
         this.commandQueue = commandQueue;
         this.executeCommandInsideMonitor = executeCommandInsideMonitor;
@@ -23,47 +23,50 @@ public class CommandExecutionThread extends Thread {
      */
     @Override
     public void run() {
-        /*
-        This is to get around the fact that the compiler doesn't think we'll always reach
-        the statement where we pull a command off the Queue and initialize commandToRun
-         */
-        Command commandToRun = null;
+        Command commandToRun;
 
-        if(commandQueue.size() > 0) {
+        while (true) {
             synchronized (commandQueue) {
-                while (!commandQueue.peek().isStop()) {
-                    while (commandQueue.size() <= 0) {
-                        try {
-                            this.wait();
-                        } catch (InterruptedException e) {
-                            System.out.println("Thread was interrupted.");
-                        }
-                    }
-
-                    commandToRun = commandQueue.remove();
-
-                    if (executeCommandInsideMonitor) {
-                        try {
-                            commandToRun.execute(bank);
-                        } catch (InsufficientFundsException e) {
-                            System.out.println(e);
-                        }
+                System.out.println("Running thread " + getId());
+                while (commandQueue.size() == 0) {
+                    try {
+                        System.out.println("No commands for thread " + getId() + " so we'll wait");
+                        commandQueue.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
 
-                if (commandQueue.peek().isStop()) {
-                    commandQueue.remove();
+                commandToRun = commandQueue.remove();
+                //System.out.println("Getting command " + commandToRun + " for thread " + getId());
+                //System.out.println("Thread is " + this.getState() + " and command is " + commandQueue.peek());
+
+                if (!commandToRun.isStop() && executeCommandInsideMonitor) {
+                    System.out.println("Executing " + commandToRun.getClass() + " command inside sync for thread " + getId());
+                    try {
+                        commandToRun.execute(bank);
+                    } catch (InsufficientFundsException e) {
+                        //System.out.println(e);
+                    }
+                }
+
+                if (commandToRun.isStop()) {
+                    System.out.println("Command is stop, try to return for thread " + getId());
                     return;
                 }
             }
 
-            if (!executeCommandInsideMonitor && commandToRun != null) {
+            //System.out.println("We got there");
+
+            if (!executeCommandInsideMonitor) {
+                System.out.println("Executing " + commandToRun.getClass() + " command outside sync for thread " + getId());
                 try {
                     commandToRun.execute(bank);
                 } catch (InsufficientFundsException e) {
-                    System.out.println(e);
+                    //System.out.println(e);
                 }
             }
         }
     }
 }
+

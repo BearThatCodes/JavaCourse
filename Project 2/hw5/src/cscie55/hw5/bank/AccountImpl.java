@@ -63,4 +63,9 @@ public class AccountImpl implements Account{
             balance -= amount;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Account " + id + " has a balance of " + balance + ".";
+    }
 }

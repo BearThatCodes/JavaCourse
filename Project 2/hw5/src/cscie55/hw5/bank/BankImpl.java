@@ -61,6 +61,7 @@ public class BankImpl implements Bank{
         }
         else{
             synchronized (accounts.get(accountId)){
+                System.out.println("Depositing " + amount + " into account " + accountId);
                 accounts.get(accountId).deposit(amount);
             }
         }
@@ -77,14 +78,5 @@ public class BankImpl implements Bank{
             total += account.balance();
         }
         return total;
-    }
-
-    /**
-     * Returns the number of Accounts in this Bank.
-     * @return count the integer number of Accounts in this Bank
-     */
-//    TODO See if I actually need this method.
-    public int numberOfAccounts() {
-        return accounts.size();
     }
 }

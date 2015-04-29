@@ -24,6 +24,7 @@ public class BankServerImpl implements BankServer{
         for(int i=0;i<numThreads;i++){
             CommandExecutionThread threadToAdd = new CommandExecutionThread(bank,commandQueue,executeCommandInsideMonitor);
             commandExecutionThreads.add(threadToAdd);
+            System.out.println("Creating thread " + threadToAdd.getId());
             threadToAdd.start();
         }
     }
@@ -49,8 +50,8 @@ public class BankServerImpl implements BankServer{
     @Override
     public void stop() throws InterruptedException {
         synchronized (commandExecutionThreads) {
-            for (int i = 0; i < commandExecutionThreads.size();) {
-                synchronized (commandQueue) {
+            synchronized (commandQueue) {
+                for (CommandExecutionThread commandToStop : commandExecutionThreads) {
                     commandQueue.add(Command.stop());
                 }
             }

@@ -98,13 +98,16 @@ public class Tester
         TestThread[] threads = new TestThread[clientThreads];
         for (int t = 0; t < clientThreads; t++) {
             threads[t] = new TestThread(bankServer, TRANSACTIONS / clientThreads, t);
+            System.out.println("Creating thread " + threads[t].getId());
         }
         // Start the test threads
         for (TestThread thread : threads) {
             thread.start();
+            System.out.println("Starting thread " + thread.getId());
         }
         // Wait for the threads to complete
         for (TestThread thread : threads) {
+            System.out.println("Joining thread " + thread.getId());
             thread.join();
         }
         // Stop the server
