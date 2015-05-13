@@ -31,19 +31,19 @@ public abstract class Command
 
         String commandType = tokens[0];
 
-        if(commandType == "CREATE_ACCOUNT"){
+        if(commandType.equals("CREATE_ACCOUNT")){
             return new CommandCreateAccount(Integer.parseInt(tokens[1]));
         }
-        else if(commandType == "DELETE_ALL_ACCOUNTS"){
+        else if(commandType.equals("DELETE_ALL_ACCOUNTS")){
             return new CommandDeleteAllAccounts();
         }
-        else if(commandType == "DEPOSIT"){
+        else if(commandType.equals("DEPOSIT")){
             return new CommandDeposit(Integer.parseInt(tokens[1]),Long.parseLong(tokens[2]));
         }
-        else if(commandType == "TRANSFER"){
+        else if(commandType.equals("TRANSFER")){
             return new CommandTransfer(Integer.parseInt(tokens[1]),Integer.parseInt(tokens[2]),Long.parseLong(tokens[3]));
         }
-        else if(commandType == "TOTAL_BALANCES"){
+        else if(commandType.equals("TOTAL_BALANCES")){
             return new CommandTotalBalances();
         }
         else{
