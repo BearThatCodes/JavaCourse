@@ -35,33 +35,33 @@ public class CommandExecutionThread extends Thread {
     public void run() {
         Command commandToRun;
         in = new BufferedReader(new InputStreamReader(inputStream));
-        out = new PrintWriter(outputStream);
+        out = new PrintWriter(outputStream,true);
 
-        try {
-            commandToRun = Command.parse(in.readLine());
-            System.out.println("Running command " + commandToRun.asString() + " in thread " + this.getId());
+        while(true){
             try {
-                synchronized (bank) {
-                    String outputString;
-                    outputString = commandToRun.execute(bank);
-                    if(outputString != null) {
-                        out.write(outputString);
-                    }
-                    else{
-                        out.write("No response from command.");
+                String nextLine = in.readLine();
+                if (nextLine != null) {
+                    commandToRun = Command.parse(nextLine);
+                    try {
+                        synchronized (bank) {
+                            String outputString;
+                            outputString = commandToRun.execute(bank);
+                            if (outputString != null) {
+                                out.println(outputString);
+                            }
+                            else {
+                                out.println("");
+                            }
+                        }
+                    } catch (InsufficientFundsException e) {
+                        out.println(e.getMessage());
+                    } catch (DuplicateAccountException e) {
+                        out.println(e.getMessage());
                     }
                 }
-            } catch (InsufficientFundsException e) {
-                System.out.println(e.getMessage());
-            } catch (DuplicateAccountException e) {
-                System.out.println(e.getMessage());
+            }catch(IOException e){
+                break;
             }
-            finally {
-                inputStream.close();
-                outputStream.close();
-            }
-        } catch (IOException e) {
-            System.out.println("Could not read command from server.");
         }
     }
 }

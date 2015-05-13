@@ -14,8 +14,8 @@ public class BankServer {
 
     public static void main(String[] args) {
         BankImpl bank = new BankImpl();
-        boolean stop = false;
-        ServerSocket listener = null;
+        ServerSocket listener;
+
 
         System.out.println("Created new BankImpl.");
 
@@ -27,21 +27,16 @@ public class BankServer {
             return;
         }
 
-        while (!stop) {
+        while (true) {
             try {
                 Socket clientSocket = listener.accept();
-
-                System.out.println("Connection established with client at " + clientSocket.getInetAddress() + " on port " + clientSocket.getPort());
-
-                PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-
-                //out.println("Connected to server on port " + PORT_NUM);
 
                 InputStream inputStream = clientSocket.getInputStream();
                 OutputStream outputStream = clientSocket.getOutputStream();
 
                 CommandExecutionThread commandExecutionThread = new CommandExecutionThread(bank, inputStream, outputStream);
                 commandExecutionThread.start();
+
             } catch (IOException e) {
                 System.out.println("Could not open port " + PORT_NUM);
             }

@@ -27,9 +27,16 @@ public abstract class Command
      */
     public static Command parse(String input)
     {
-        String[] tokens = input.split("\\s+");
+        String[] tokens = new String[2];
+        if(input.contains(" ")) {
+            tokens = input.split("\\s+");
 
+        }
+        else{
+            tokens[0] = input;
+        }
         String commandType = tokens[0];
+
 
         if(commandType.equals("CREATE_ACCOUNT")){
             return new CommandCreateAccount(Integer.parseInt(tokens[1]));
