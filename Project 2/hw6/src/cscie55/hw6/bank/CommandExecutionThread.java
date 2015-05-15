@@ -3,21 +3,14 @@ package cscie55.hw6.bank;
 import cscie55.hw6.bank.command.Command;
 
 import java.io.*;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.util.stream.Stream;
 
 /**
- * Created by Isaac on 5/11/2015.
+ * Created by Isaac on 5/04/2015.
  */
 public class CommandExecutionThread extends Thread {
     private BankImpl bank;
     private InputStream inputStream;
     private OutputStream outputStream;
-    private BufferedReader in;
-    private PrintWriter out;
-    private Socket client;
-    private static final int PORT_NUM = 1066;
 
     /**
      * Creates a new CommandExecutionThread
@@ -31,11 +24,14 @@ public class CommandExecutionThread extends Thread {
         this.outputStream = outputStream;
     }
 
+
     @Override
     public void run() {
         Command commandToRun;
-        in = new BufferedReader(new InputStreamReader(inputStream));
-        out = new PrintWriter(outputStream,true);
+        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        PrintWriter out = new PrintWriter(outputStream,true);
+
+        System.out.println("Starting thread " + this.getId());
 
         while(true){
             try {
@@ -45,6 +41,7 @@ public class CommandExecutionThread extends Thread {
                     try {
                         synchronized (bank) {
                             String outputString;
+                            System.out.println("Executing command: " + commandToRun.asString());
                             outputString = commandToRun.execute(bank);
                             if (outputString != null) {
                                 out.println(outputString);
@@ -59,9 +56,15 @@ public class CommandExecutionThread extends Thread {
                         out.println(e.getMessage());
                     }
                 }
+                else{
+                    break;
+                }
             }catch(IOException e){
+                System.out.println("Ending thread " + this.getId());
                 break;
             }
         }
+
+
     }
 }
