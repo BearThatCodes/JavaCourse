@@ -6,6 +6,21 @@ import java.util.List;
 
 public class Link implements Serializable
 {
+    private String url;
+    private long timestamp;
+    private List<String> tags;
+
+    public Link(String url, long timestamp, List<String> tags) {
+        this.url = url;
+        this.timestamp = timestamp;
+        this.tags = tags;
+    }
+
+    /**
+     * Takes a String and returns a Link object
+     * @param line the String to parse
+     * @return the Link object that the line represents
+     */
     public static Link parse(String line)
     {
         int urlTokenEnd = line.indexOf(URL_TOKEN) + URL_TOKEN.length();
@@ -32,6 +47,67 @@ public class Link implements Serializable
             tags.add(tag);
         }
         return new Link(url, timestamp, tags);
+    }
+
+    /**
+     * Get this Link's URL.
+     * @return String representing the URL
+     */
+    public String url(){
+        return url;
+    }
+
+    /**
+     * Get this Link's timestamp
+     * @return long representing the timestamp
+     */
+    public long timestamp() {
+        return timestamp;
+    }
+
+    /**
+     * Get this Link's tags
+     * @return List of Strings, each of which is a tag associated with this Link
+     */
+    public List<String> tags() {
+        return tags;
+    }
+
+    /**
+     * Checks if an Object equals this Link
+     * @param o the Object to check
+     * @return true if equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Link link = (Link) o;
+
+        if (timestamp != link.timestamp) {
+            return false;
+        }
+        if (!url.equals(link.url)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Generates a hash of this Link, taking into account only URL and timestamp
+     * @return int representing the hash
+     */
+    @Override
+    public int hashCode() {
+        int result = url.hashCode();
+        result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
+        return result;
     }
 
     private static final String URL_TOKEN = "\"url\"";
