@@ -1,21 +1,20 @@
 package cscie55.hw7;
 
 import java.io.*;
+import java.rmi.Naming;
 import java.rmi.RemoteException;
+import java.rmi.server.RMIClassLoader;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
  * Created by Isaac on 5/01/2015.
  */
 public class LinkAnalyzerNodeImpl implements LinkAnalyzerNode{
-    private File directoryToProcess;
-    private List<Link> links;
+    private ArrayList<Link> links = new ArrayList<Link>();
 
     public LinkAnalyzerNodeImpl(File directoryToProcess) {
-        this.directoryToProcess = directoryToProcess;
-
         for(File file:directoryToProcess.listFiles()){
             if(!file.isDirectory()){
                 try {
@@ -114,5 +113,6 @@ public class LinkAnalyzerNodeImpl implements LinkAnalyzerNode{
         File directoryToProcess = new File(args[0]);
 
         LinkAnalyzerNode linkAnalyzerNode = new LinkAnalyzerNodeImpl(directoryToProcess);
+
     }
 }
