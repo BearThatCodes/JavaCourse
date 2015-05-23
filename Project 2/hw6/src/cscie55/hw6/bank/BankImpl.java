@@ -21,11 +21,9 @@ public class BankImpl implements Bank{
      */
     @Override
     public void deleteAllAccounts() {
-        System.out.println("Trying to clear accounts.");
         synchronized (accounts) {
             accounts.clear();
         }
-        System.out.println("Accounts cleared.");
     }
 
     /**
@@ -62,8 +60,6 @@ public class BankImpl implements Bank{
 
             }
         }
-
-
     }
 
     /**

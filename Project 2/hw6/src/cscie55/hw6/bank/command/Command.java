@@ -4,8 +4,6 @@ import cscie55.hw6.bank.Bank;
 import cscie55.hw6.bank.DuplicateAccountException;
 import cscie55.hw6.bank.InsufficientFundsException;
 
-import java.util.StringTokenizer;
-
 /**
  * Commands that can be executed by the bank. Each Command object has a string representation suitable for transmission
  * between client and server. Command.asString() yields the string representation. Command.parse(String) parses the
@@ -94,7 +92,7 @@ public abstract class Command
     /**
      * Returns a TRANSFER Command.
      * @param fromAccountId The identifier of the Account from which funds will be withdrawn.
-     * @param toAccountId The identifer of the Account to which funds will be deposited.
+     * @param toAccountId The identifier of the Account to which funds will be deposited.
      * @param amount The amount to be transferred.
      * @return a TRANSFER Command.
      */

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="hw6">
+    <output-path>D:/Desktop/hw6</output-path>
+    <root id="archive" name="hw6.jar">
+      <element id="dir-copy" path="$PROJECT_DIR$/out/production/hw6" />
+    </root>
+  </artifact>
+</component>

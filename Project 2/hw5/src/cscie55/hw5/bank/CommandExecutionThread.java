@@ -41,7 +41,7 @@ public class CommandExecutionThread extends Thread {
                     try {
                         commandToRun.execute(bank);
                     } catch (InsufficientFundsException e) {
-                        System.out.println(e);
+                        System.out.println(e.getMessage());
                     }
                 }
 
@@ -54,7 +54,7 @@ public class CommandExecutionThread extends Thread {
                 try {
                     commandToRun.execute(bank);
                 } catch (InsufficientFundsException e) {
-                    System.out.println(e);
+                    System.out.println(e.getMessage());
                 }
             }
         }

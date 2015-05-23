@@ -1,21 +1,21 @@
 package cscie55.hw6.bank;
 
 import java.io.*;
-import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Scanner;
 
 /**
- * Created by Isaac on 5/11/2015.
+ * Created by Isaac on 5/04/2015.
  */
 public class BankServer {
     private final static int PORT_NUM = 9090;
 
+    /**
+     * Runs the BankServer
+     */
     public static void main(String[] args) {
         BankImpl bank = new BankImpl();
         ServerSocket listener;
-
 
         System.out.println("Created new BankImpl.");
 

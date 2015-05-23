@@ -3,8 +3,8 @@ package cscie55.hw6.bank;
 public interface Account
 {
     /**
-     * Returns the identifer of this Account. Identifiers should be unique within a Bank.
-     * @return the identifer of this Account.
+     * Returns the identifier of this Account. Identifiers should be unique within a Bank.
+     * @return the identifier of this Account.
      */
     int id();
 

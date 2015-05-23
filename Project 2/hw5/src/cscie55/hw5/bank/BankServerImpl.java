@@ -13,11 +13,9 @@ public class BankServerImpl implements BankServer{
     private Queue<Command> commandQueue;
     private ArrayList<CommandExecutionThread> commandExecutionThreads;
     private Bank bank;
-    private boolean executeCommandInsideMonitor;
 
     public BankServerImpl(Bank bank,int numThreads,boolean executeCommandInsideMonitor) {
         this.bank = bank;
-        this.executeCommandInsideMonitor = executeCommandInsideMonitor;
         commandQueue = new LinkedList<Command>();
         commandExecutionThreads = new ArrayList<CommandExecutionThread>();
 
