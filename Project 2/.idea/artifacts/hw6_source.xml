@@ -2,7 +2,7 @@
   <artifact type="jar" name="hw6_source">
     <output-path>D:/Desktop/hw6</output-path>
     <root id="archive" name="hw6_source.jar">
-      <element id="dir-copy" path="$PROJECT_DIR$/hw6" />
+      <element id="dir-copy" path="$PROJECT_DIR$/../Project2/hw6" />
     </root>
   </artifact>
 </component>

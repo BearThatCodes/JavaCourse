@@ -1,9 +1,19 @@
 package cscie55.hw7;
 
+import sun.nio.ch.Net;
+
 import java.io.*;
+import java.net.InetAddress;
+import java.net.MalformedURLException;
+import java.net.UnknownHostException;
+import java.rmi.AlreadyBoundException;
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.RMIClassLoader;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,32 +21,34 @@ import java.util.Set;
 /**
  * Created by Isaac on 5/01/2015.
  */
-public class LinkAnalyzerNodeImpl implements LinkAnalyzerNode{
+public class LinkAnalyzerNodeImpl extends java.rmi.server.UnicastRemoteObject implements LinkAnalyzerNode {
     private ArrayList<Link> links = new ArrayList<Link>();
 
-    public LinkAnalyzerNodeImpl(File directoryToProcess) {
-        for(File file:directoryToProcess.listFiles()){
-            if(!file.isDirectory()){
-                try {
-                    BufferedReader reader = new BufferedReader(new FileReader(file));
+    public LinkAnalyzerNodeImpl(File directoryToProcess) throws RemoteException{
+            super();
 
-                    String line;
+            for(File file:directoryToProcess.listFiles()){
+                if(!file.isDirectory()){
+                    try {
+                        BufferedReader reader = new BufferedReader(new FileReader(file));
 
-                    while ((line = reader.readLine()) != null){
-                        try {
-                            links.add(Link.parse(line));
+                        String line;
+
+                        while ((line = reader.readLine()) != null){
+                            try {
+                                links.add(Link.parse(line));
+                            }
+                            catch (Exception e){
+                                //Exception ignored
+                            }
                         }
-                        catch (Exception e){
-                            //Exception ignored
-                        }
+                    } catch (FileNotFoundException e) {
+                        System.out.println("Could not read file " + file.toString());
+                    } catch (IOException e) {
+                        System.out.println("Could not read line in file " + file.toString());
                     }
-                } catch (FileNotFoundException e) {
-                    System.out.println("Could not read file " + file.toString());
-                } catch (IOException e) {
-                    System.out.println("Could not read line in file " + file.toString());
                 }
             }
-        }
     }
 
     /**
@@ -112,7 +124,20 @@ public class LinkAnalyzerNodeImpl implements LinkAnalyzerNode{
     public static void main(String[] args) {
         File directoryToProcess = new File(args[0]);
 
-        LinkAnalyzerNode linkAnalyzerNode = new LinkAnalyzerNodeImpl(directoryToProcess);
+        try {
+            LinkAnalyzerNodeImpl analyzerNode = new LinkAnalyzerNodeImpl(directoryToProcess);
+
+            LinkAnalyzerImpl analyzerService = (LinkAnalyzerImpl) Naming.lookup(LinkAnalyzerImpl.URL);
+
+            analyzerService.registerNode(analyzerNode);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
+
 
     }
 }

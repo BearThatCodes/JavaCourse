@@ -2,7 +2,7 @@
   <artifact type="jar" name="hw5_source">
     <output-path>D:/Desktop/hw5</output-path>
     <root id="archive" name="hw5_source.jar">
-      <element id="dir-copy" path="$PROJECT_DIR$/hw5" />
+      <element id="dir-copy" path="$PROJECT_DIR$/../Project2/hw5" />
     </root>
   </artifact>
 </component>
