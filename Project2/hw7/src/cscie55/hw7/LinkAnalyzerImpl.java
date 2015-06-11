@@ -14,6 +14,8 @@ import java.util.Set;
  */
 public class LinkAnalyzerImpl extends java.rmi.server.UnicastRemoteObject implements LinkAnalyzer {
     protected static String URL = "//localhost/linkanalyzer";
+    private static Registry registry;
+    private static final int PORT = 1099;
     private static int nodeID = 0;
     private ArrayList<LinkAnalyzerNode> nodes = new ArrayList<LinkAnalyzerNode>();
 
@@ -28,7 +30,7 @@ public class LinkAnalyzerImpl extends java.rmi.server.UnicastRemoteObject implem
      * @since JDK1.1
      */
     protected LinkAnalyzerImpl() throws RemoteException {
-        super();
+        //super();
     }
 
     /**
@@ -98,17 +100,20 @@ public class LinkAnalyzerImpl extends java.rmi.server.UnicastRemoteObject implem
     }
 
     public static void main(String[] args) {
-        /*try {
-            LocateRegistry.createRegistry(PORT);
+        try {
+            registry = LocateRegistry.createRegistry(PORT);
         } catch (RemoteException e) {
             e.printStackTrace();
-        }*/
+        }
 
         try {
             LinkAnalyzerImpl analyzer = new LinkAnalyzerImpl();
-            Registry registry = LocateRegistry.getRegistry();
-            registry.rebind(URL, analyzer);
+            //Registry registry = LocateRegistry.getRegistry();
+            Naming.rebind(URL, analyzer);
+            //registry.rebind(URL, analyzer);
         } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
     }
