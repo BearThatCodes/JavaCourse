@@ -22,7 +22,7 @@ public class LinkAnalyzerImpl extends java.rmi.server.UnicastRemoteObject implem
      * @since JDK1.1
      */
     protected LinkAnalyzerImpl() throws RemoteException {
-
+        //super()
     }
 
     /**
