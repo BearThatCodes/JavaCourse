@@ -21,6 +21,7 @@ public class LinkAnalyzerNodeImpl extends UnicastRemoteObject implements LinkAna
         File[] files = directoryToProcess.listFiles();
 
         if(files != null) {
+            System.out.println("Reading files from " + directoryToProcess);
             for (File file : files) {
                 if (!file.isDirectory()) {
                     try {
@@ -52,10 +53,12 @@ public class LinkAnalyzerNodeImpl extends UnicastRemoteObject implements LinkAna
         File directoryToProcess = new File(args[0]);
 
         try {
+            System.out.println("Create analyzer node");
             LinkAnalyzerNodeImpl analyzerNode = new LinkAnalyzerNodeImpl(directoryToProcess);
 
             LinkAnalyzer analyzerService = (LinkAnalyzer) Naming.lookup(LinkAnalyzer.URL);
 
+            System.out.println("Register node with server");
             analyzerService.registerNode(analyzerNode);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -77,8 +80,6 @@ public class LinkAnalyzerNodeImpl extends UnicastRemoteObject implements LinkAna
     @Override
     public Set<Link> linksByTime(long startTime, long endTime) throws RemoteException {
         HashSet<Link> returnLinks = new HashSet<Link>();
-
-        System.out.println("Links by time from " + startTime + " to " + endTime);
 
         for(Link link:links){
             if(link.timestamp() > startTime && link.timestamp() < endTime){

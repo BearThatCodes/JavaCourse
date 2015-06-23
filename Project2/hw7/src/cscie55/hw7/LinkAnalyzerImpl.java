@@ -93,6 +93,7 @@ public class LinkAnalyzerImpl extends java.rmi.server.UnicastRemoteObject implem
 
     public static void main(String[] args) {
         try {
+            System.out.println("Create link analyzer");
             LinkAnalyzerImpl analyzer = new LinkAnalyzerImpl();
             Naming.rebind(URL, analyzer);
         } catch (RemoteException e) {
