@@ -1,37 +1,37 @@
 package cscie55.hw7;
 
-import sun.nio.ch.Net;
-
 import java.io.*;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Isaac on 5/01/2015.
+ * Processes files containing JSON representations of URLs and accompanying metadata.
  */
-public class LinkAnalyzerNodeImpl extends java.rmi.server.UnicastRemoteObject implements LinkAnalyzerNode {
+public class LinkAnalyzerNodeImpl extends UnicastRemoteObject implements LinkAnalyzerNode {
     private ArrayList<Link> links = new ArrayList<Link>();
 
     public LinkAnalyzerNodeImpl(File directoryToProcess) throws RemoteException{
-            super();
 
-            for(File file:directoryToProcess.listFiles()){
-                if(!file.isDirectory()){
+        File[] files = directoryToProcess.listFiles();
+
+        if(files != null) {
+            for (File file : files) {
+                if (!file.isDirectory()) {
                     try {
                         BufferedReader reader = new BufferedReader(new FileReader(file));
 
                         String line;
 
-                        while ((line = reader.readLine()) != null){
+                        while ((line = reader.readLine()) != null) {
                             try {
                                 links.add(Link.parse(line));
-                            }
-                            catch (Exception e){
+                            } catch (Exception e) {
                                 //Exception ignored
                             }
                         }
@@ -42,6 +42,28 @@ public class LinkAnalyzerNodeImpl extends java.rmi.server.UnicastRemoteObject im
                     }
                 }
             }
+        }
+        else{
+            System.out.println("No links in file.");
+        }
+    }
+
+    public static void main(String[] args) {
+        File directoryToProcess = new File(args[0]);
+
+        try {
+            LinkAnalyzerNodeImpl analyzerNode = new LinkAnalyzerNodeImpl(directoryToProcess);
+
+            LinkAnalyzer analyzerService = (LinkAnalyzer) Naming.lookup(LinkAnalyzer.URL);
+
+            analyzerService.registerNode(analyzerNode);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -55,6 +77,8 @@ public class LinkAnalyzerNodeImpl extends java.rmi.server.UnicastRemoteObject im
     @Override
     public Set<Link> linksByTime(long startTime, long endTime) throws RemoteException {
         HashSet<Link> returnLinks = new HashSet<Link>();
+
+        System.out.println("Links by time from " + startTime + " to " + endTime);
 
         for(Link link:links){
             if(link.timestamp() > startTime && link.timestamp() < endTime){
@@ -112,23 +136,5 @@ public class LinkAnalyzerNodeImpl extends java.rmi.server.UnicastRemoteObject im
         }
 
         return returnLinks;
-    }
-
-    public static void main(String[] args) {
-        File directoryToProcess = new File(args[0]);
-
-        try {
-            LinkAnalyzerNodeImpl analyzerNode = new LinkAnalyzerNodeImpl(directoryToProcess);
-
-            LinkAnalyzerImpl analyzerService = (LinkAnalyzerImpl) Naming.lookup(LinkAnalyzerImpl.URL);
-
-            analyzerService.registerNode(analyzerNode);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
-        }
     }
 }

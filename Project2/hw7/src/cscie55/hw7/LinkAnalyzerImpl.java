@@ -3,34 +3,26 @@ package cscie55.hw7;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Isaac on 5/23/2015.
+ * Creates and connects to LinkAnalyzerNodes to process files containing JSON representations of URLs and accompanying metadata.
  */
 public class LinkAnalyzerImpl extends java.rmi.server.UnicastRemoteObject implements LinkAnalyzer {
     protected static String URL = "//localhost/linkanalyzer";
-    private static Registry registry;
-    private static final int PORT = 1099;
-    private static int nodeID = 0;
     private ArrayList<LinkAnalyzerNode> nodes = new ArrayList<LinkAnalyzerNode>();
 
     /**
      * Creates and exports a new UnicastRemoteObject object using an
      * anonymous port.
-     * <p/>
-     * <p>The object is exported with a server socket
-     * created using the {@link RMISocketFactory} class.
      *
      * @throws java.rmi.RemoteException if failed to export object
      * @since JDK1.1
      */
     protected LinkAnalyzerImpl() throws RemoteException {
-        //super();
+
     }
 
     /**
@@ -101,16 +93,8 @@ public class LinkAnalyzerImpl extends java.rmi.server.UnicastRemoteObject implem
 
     public static void main(String[] args) {
         try {
-            registry = LocateRegistry.createRegistry(PORT);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-        try {
             LinkAnalyzerImpl analyzer = new LinkAnalyzerImpl();
-            //Registry registry = LocateRegistry.getRegistry();
             Naming.rebind(URL, analyzer);
-            //registry.rebind(URL, analyzer);
         } catch (RemoteException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
