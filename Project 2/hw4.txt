@@ -1,0 +1,32 @@
+Output:
+-------------------------------------------------------------------
+NO_LOCKING, 1 -- OK: 6662.095945 transactions/msec
+NO_LOCKING, 2 -- BROKEN: 5348.329319 transactions/msec	Expected total balances: 100000	Actual: 18507
+NO_LOCKING, 5 -- BROKEN: 228.588366 transactions/msec	Expected total balances: 100000	Actual: 591
+NO_LOCKING, 10 -- BROKEN: 90.785523 transactions/msec	Expected total balances: 100000	Actual: 345
+NO_LOCKING, 20 -- BROKEN: 49.995278 transactions/msec	Expected total balances: 100000	Actual: 185
+LOCK_BANK, 1 -- OK: 6167.376756 transactions/msec
+LOCK_BANK, 2 -- OK: 3764.665286 transactions/msec
+LOCK_BANK, 5 -- OK: 3356.301615 transactions/msec
+LOCK_BANK, 10 -- OK: 3362.606986 transactions/msec
+LOCK_BANK, 20 -- OK: 3255.009685 transactions/msec
+LOCK_ACCOUNTS, 1 -- OK: 5425.913517 transactions/msec
+LOCK_ACCOUNTS, 2 -- OK: 6107.583968 transactions/msec
+LOCK_ACCOUNTS, 5 -- OK: 8249.311062 transactions/msec
+LOCK_ACCOUNTS, 10 -- OK: 9413.580335 transactions/msec
+LOCK_ACCOUNTS, 20 -- OK: 9574.148940 transactions/msec
+
+Process finished with exit code 0
+-------------------------------------------------------------------
+
+Questions:
+-------------------------------------------------------------------
+1.
+Since no other thread can jump in in between the balance check and the actual withdrawl, overdrafts, if any, are handled appropriately (with an exception). Once we add more threads, it becomes increasingly likely that control will pass from one thread to another in the middle of the withdraw method thus breaking the balance check that occurs.
+
+I would not have been suprised to see another thread or two succeed were I to run this again since, depending on how much each thread wants to withdraw, there might be enough for several threads to withdraw their desired amounts even though their balance checks will be outdated by the time the actual withdraw occurs.
+
+2.
+With only a single thread of LOCK_BANK running, each transfer must be run in sequence with each 
+
+-------------------------------------------------------------------
