@@ -14,7 +14,7 @@ public class PlantDAO {
     private Statement statement = null;
     private ResultSet resultSet = null;
 
-    public void writeRow(String name,String description,Float height) throws Exception {
+    public void writeRow(String name,String description,Double height) throws Exception {
         // This will load the MySQL driver, each DB has its own driver
         Class.forName("com.mysql.jdbc.Driver");
         // Setup the connection with the DB
@@ -26,7 +26,7 @@ public class PlantDAO {
 
         preparedStatement.setString(1, name);
         preparedStatement.setString(2, description);
-        preparedStatement.setFloat(3, height);
+        preparedStatement.setDouble(3, height);
 
         preparedStatement.executeUpdate();
     }
