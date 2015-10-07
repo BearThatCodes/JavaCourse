@@ -12,8 +12,24 @@ import java.util.HashMap;
 public class PlantDAO {
     private Connection connect = null;
     private Statement statement = null;
-    private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
+
+    public void writeRow(String name,String description,Float height) throws Exception {
+        // This will load the MySQL driver, each DB has its own driver
+        Class.forName("com.mysql.jdbc.Driver");
+        // Setup the connection with the DB
+        connect = DriverManager
+                .getConnection("jdbc:mysql://localhost/PlantDB?" + "user=user&password=user");
+
+        // Statements allow to issue SQL queries to the database
+        PreparedStatement preparedStatement = connect.prepareStatement("insert into PlantDB.Flowers (name,description,height) VALUES(?,?,?)");
+
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, description);
+        preparedStatement.setFloat(3, height);
+
+        preparedStatement.executeUpdate();
+    }
 
     public void readDataBase() throws Exception {
         try {
